@@ -1,0 +1,404 @@
+/* Philips_Alliance Input erase green focus */
+.keyboard-content.hover, .keyboard-content.focus, .keyboard-content.active {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.keyboard-content:active, .keyboard-content:hover, .keyboard-content:focus, .keyboard-content:link, .keyboard-content:visited {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.keyboard-content.hover, .keyboard-content.focus, .keyboard-content.active {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.keyboard-content:active, .keyboard-content:hover, .keyboard-content:focus, .keyboard-content:link, .keyboard-content:visited {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+
+.key.hover, .key.focus, .key.active {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.key:active, .key:hover, .key:focus, .key:link, .key:visited {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.key.hover, .key.focus, .key.active {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.key:active, .key:hover, .key:focus, .key:link, .key:visited {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+
+.keyboard-cover.hover, .keyboard-cover.focus, .keyboard-cover.active {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.keyboard-cover:active, .keyboard-cover:hover, .keyboard-cover:focus, .keyboard-cover:link, .keyboard-cover:visited {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.keyboard-cover.hover, .keyboard-cover.focus, .keyboard-cover.active {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+.keyboard-cover:active, .keyboard-cover:hover, .keyboard-cover:focus, .keyboard-cover:link, .keyboard-cover:visited {
+/*   border: 0px none; */
+  outline:blue solid 0px !important;
+}
+
+/* ePhilips_Alliance Input erase green focus */
+
+/* ==========================================================================
+   Teclado virtual -- rediseño completo (2ª vuelta)
+   ==========================================================================
+   Estructura (ver keyboard.js): 3 filas de solo letras (sin números/símbolos
+   mezclados, esos viven en la capa SPECIAL detrás de la tecla GEAR) + 1 fila
+   de controles abajo. Acá, en el CSS, las reglas que importan para que eso
+   se vea y se comporte bien:
+
+   1) Nada puede crecer más alto que su fila. Antes .content no tenía
+      protección contra texto largo (ej. el nombre de un idioma en
+      LANGCHANGE): si no entraba, pasaba a una 2ª línea, la tecla crecía más
+      que la fila, y como nada recortaba ese desborde terminaba empujando
+      toda la página (scroll + un pedazo de teclado "suelto"). Ahora:
+      white-space:nowrap + text-overflow:ellipsis en .content (se trunca en
+      vez de partir), MÁS overflow:hidden en .keyboard-content y en .line
+      como barrera dura -- aunque algo se desborde por otro motivo que no
+      se haya previsto, queda recortado ahí adentro y nunca llega a la página.
+
+   2) Los íconos (backspace, done, espacio, flechas, engranaje) se centran
+      con "center center" en vez de un offset en píxeles fijo. Antes esos
+      píxeles estaban calculados a ojo para el ancho que cada tecla tenía en
+      la rejilla vieja de 14-16 columnas; al cambiar de estructura quedaban
+      apuntando a cualquier lado. "center center" no depende del ancho real
+      de la tecla, así que sigue centrado sin importar cuántas columnas
+      tenga la fila.
+
+   3) Look: antes negro plano sin radio de borde en ninguna tecla (de ahí
+      que, aunque se reestructuraran las columnas, siguiera viéndose como
+      una rejilla cuadrada de hace 10 años). Ahora esquinas redondeadas
+      (10px), separación real entre teclas, y un tono azulado distinto para
+      las teclas de función vs. el gris de las letras, para que la rejilla
+      no se lea como un bloque uniforme.
+   ========================================================================== */
+
+/* Antes: `left: 40px; width: 1200px;` -- ancho fijo pensado para una sola
+   resolución. Ahora ocupa el 100% del ancho de la pantalla y queda anclado
+   al borde inferior; box-sizing: border-box para que el padding no lo
+   desborde más allá del 100%. overflow:hidden es la barrera dura contra el
+   bug de scroll (ver punto 1 arriba). */
+/* Altura: en vh en vez de px fijos, porque la única dimensión que la app NO
+   fija en ningún lado es la altura real del viewport (ver meta viewport:
+   solo fija width=1280; la altura lógica que reporta cada TV depende de su
+   proporción real de pantalla). Con px fijos, un televisor que no sea
+   exactamente 16:9 ve el teclado más chico o más grande de lo pensado; con
+   vh, el teclado siempre ocupa la misma PROPORCIÓN de la pantalla real, sea
+   cual sea su tamaño/resolución. 4 filas x 7.5vh + 12px de padding propio
+   (6px arriba, 6px abajo -- ese sí puede quedar en px, es un margen chico
+   que no necesita escalar). */
+.keyboard-content {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-sizing: border-box;
+	z-index: 1000;
+	width: 100%;
+	height: calc(30vh + 12px);
+	overflow: hidden;
+	background: rgba(30, 31, 36, 0.92);
+	padding: 6px 10px 6px 6px;
+	font-family: sans-serif;
+	font-weight: normal;
+}
+
+	/* Bug real de "botones encima de otros": .key nunca tenía altura propia
+	   (quedaba en "auto"), así que el height:100% de .content (ver más abajo)
+	   no tenía contra qué resolverse y también caía en "auto" -- .content
+	   terminaba midiendo lo que pedía su línea de texto (heredaba
+	   line-height de .line) + su borde de 1px arriba y abajo, y .key sumaba
+	   encima su propio padding de 5px arriba y abajo. Con la fila vieja de
+	   50px fijos, esa cuenta daba ~62px de contenido real contra 50px
+	   disponibles: el overflow:hidden de .line recortaba 12px de cada tecla
+	   en vez de escalarlas hacia adentro, y con las esquinas redondeadas +
+	   colores de fondo, ese recorte se veía como que una tecla se montaba
+	   sobre la de al lado/abajo. Ahora .key SÍ tiene height:100% explícito
+	   (ver regla de abajo), así que .content puede resolver su propio
+	   height:100% contra un valor real (no "auto") y encaja exacto dentro de
+	   la fila sin que nada se recorte.
+
+	   El bug de la última columna (tecla que "salta de línea" al enfocarla)
+	   sigue cubierto igual que antes: los % de ancho de cada .key (ver
+	   getLineSize()/createKeys() en keyboard.js) pueden sumar 1-2px de más
+	   que el ancho real por el redondeo de píxeles del propio navegador;
+	   white-space:nowrap le quita al navegador la opción de mandar esa
+	   tecla a una segunda línea, y overflow:hidden esconde esos 1-2px de
+	   sobra sin generar scroll ni salto visual. */
+	.keyboard-content .line {
+		width: 100%;
+		height: 7.5vh;
+		overflow: hidden;
+		white-space: nowrap;
+		padding: 0 4px 4px 0;
+		line-height: 7.5vh;
+		box-sizing: border-box;
+	}
+
+		/* position:relative -- ancestro posicionado para cualquier hijo
+		   absoluto dentro de esta tecla (hoy ninguno directo: .seccontent,
+		   la vista previa del acento, ahora se ancla a .content -- ver más
+		   abajo -- para quedar contenida dentro del botón en vez de flotar
+		   fuera de la tecla; se deja igual acá como base segura). */
+		.keyboard-content .line .key {
+			display: inline-block;
+			height: 100%;
+			text-align: center;
+			color: white;
+			padding: 5px;
+			vertical-align: top;
+			position: relative;
+			box-sizing: border-box;
+		}
+
+			/* Antes: line-height heredado de .line (7.5vh), más alto que el
+			   espacio real disponible dentro de la tecla (7.5vh menos el
+			   padding de .line y de .key). Con overflow:hidden recortando esa
+			   diferencia por arriba, el texto quedaba pegado abajo en vez de
+			   centrado. Ahora line-height se calcula igual al alto real
+			   disponible (mismo cálculo que el height:100% de abajo), así el
+			   texto de una sola línea queda centrado de verdad.
+			   border reemplazado por box-shadow inset: un box-shadow nunca
+			   ocupa espacio de caja (a diferencia de border, que si bien va
+			   "adentro" gracias a box-sizing:border-box, sigue siendo parte
+			   del cálculo de la caja) -- así el borde es puramente visual,
+			   pegado al límite interno redondeado del botón, sin ningún
+			   riesgo de afectar tamaño/alineación. */
+			.keyboard-content .line .key .content {
+				position: relative;
+				background: #2a2b31;
+				box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+				border-radius: 10px;
+				display: inline-block;
+				width: 100%;
+				height: 100%;
+				max-height: 100%;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				font-size: 26px;
+				line-height: calc(7.5vh - 14px);
+				box-sizing: border-box;
+			}
+
+				/* Bug real de "las letras con tilde no están alineadas": la
+				   vista previa del acento (é, í, ú...) flotaba 40px por
+				   ARRIBA de la tecla, fuera de su caja -- no sumaba ancho
+				   (posición absoluta, ver comentario de más abajo), pero al
+				   sobresalir hacia arriba esa tecla se veía "más alta" que
+				   sus vecinas sin acento, y esa asimetría en la silueta de
+				   la fila es justamente lo que se percibía como
+				   "desalineado". Ahora vive DENTRO de .content, anclada a
+				   su esquina inferior derecha: cada tecla mide exactamente
+				   lo mismo tenga o no acento, nada sobresale ni desnivela
+				   la fila. overflow:hidden de .content (arriba) la recorta
+				   como red de seguridad si algún acento fuera más ancho de
+				   lo esperado. */
+				.keyboard-content .line .key .content .seccontent {
+					position: absolute;
+					bottom: 1px;
+					right: 4px;
+					font-size: 13px;
+					line-height: normal;
+					color: rgba(255, 255, 255, 0.5);
+					pointer-events: none;
+				}
+
+			/* Teclas de función (todo lo que no es letra/número -- esas llevan
+			   la clase .tt) con un tono azulado sutil distinto al gris de las
+			   letras.
+			   Importante: background-color (no el shorthand "background").
+			   Bug real de "botones sin elementos" (BSP/GEAR/SPACE/CA/LC/RC
+			   se veían vacíos): este selector (.key .content:not(.tt)) tiene
+			   MÁS especificidad que .BSP/.GEAR/etc (el :not() cuenta como una
+			   clase más), así que si acá se usa el shorthand "background",
+			   pisa TODO -- color, imagen, repeat y posición -- incluso
+			   aunque las reglas de ícono estén escritas después en el
+			   archivo. Con background-color no hay pisado posible: sólo
+			   compite por el color (que además es el mismo valor), nunca por
+			   la imagen. */
+			.keyboard-content .line .key .content:not(.tt) {
+				background-color: #30364a;
+			}
+
+		.keyboard-content .line.suggest {
+			padding: 5px 5px 0 5px;
+			line-height: 50px;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: -55px;
+			height: 50px;
+			box-sizing: border-box;
+			background: rgba(30, 31, 36, 0.92);
+		}
+
+			.keyboard-content .line.suggest .key {
+				display: inline-block;
+				height: 54px;
+				padding: 5px 0 5px 5px;
+				box-sizing: border-box;
+			}
+
+				.keyboard-content .line.suggest .key .content {
+					background: rgba(0, 0, 0, 0.55);
+					border-radius: 4px;
+					padding: 0 16px;
+					font-size: 20px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+.arabic .keyboard-content .line.suggest .key .content {
+	direction: rtl;
+	font-family: sans-serif;
+}
+
+/* Bug real de "border blanco al enfocar": este archivo define su propia
+   apariencia de foco (arriba, en .key.focus .content), pero el módulo Focus
+   (core/module/focus.js) es COMPARTIDO por toda la app y simplemente hace
+   .addClass('focus') -- la misma clase "focus" que usa el resto de la app
+   (EPG, carruseles, etc.) para SU PROPIO estilo de foco genérico, definido
+   en assets/css/style.css:
+
+     .focus { border: 3px solid #ffffff; margin: 2px;
+              box-shadow: 0px 0px 10px #ffffff; transform: scale(1.03); }
+
+   Ese ".focus" global (una sola clase, especificidad baja) se cuela en
+   CUALQUIER cosa que reciba la clase "focus", incluyendo las teclas del
+   teclado -- de ahí el borde blanco de 3px + el resplandor blanco + el
+   agrandado de 3% que además desalineaba la fila. No se toca style.css
+   (lo usan otros componentes); acá alcanza con neutralizar esas 4
+   propiedades puntuales para las teclas, con una regla ya más específica
+   que la global. */
+.keyboard-content .line .key.focus {
+	cursor: pointer;
+	border: none;
+	margin: 0;
+	box-shadow: none;
+	transform: none;
+}
+
+	.keyboard-content .line .key.focus .content {
+		background: #afdeff;
+		box-shadow: inset 0 0 0 2px #4a9eff;
+		color: Black;
+	}
+
+/* Bug real de "el shift no se ve": .content ya recibe .CAPSLOCK/.BSP/etc
+   ADEMÁS de .content (ver createKeys() -- $keyContent.addClass(...) se
+   suma, no reemplaza), así que un selector de una sola clase como ".CAPSLOCK"
+   tiene MENOS especificidad que ".key.focus .content" (5 clases) o que
+   ".content:not(.tt)" (también 5 clases) -- dependía de quién quedara
+   declarado después para ganar el empate, algo frágil que se rompe con
+   cualquier reordenamiento futuro del archivo. Ahora cada selector de ícono
+   escribe AMBAS clases juntas (".content.CAPSLOCK", no solo ".CAPSLOCK"):
+   eso suma una clase más de especificidad y le gana SIEMPRE a ".content" y
+   a ".content:not(.tt)" (5 clases) y a ".key.focus .content" (5 clases,
+   variante enfocada), sin depender del orden de declaración. "Caps Lock" en
+   texto se cambió por la misma flecha hacia arriba que cualquier teclado
+   físico/de celular usa para shift/caps (shift.png/shift-active.png, ya
+   existían, no hizo falta un asset nuevo). El estado ON/OFF ya se ve
+   reflejado en las propias letras del teclado, que pasan a mayúscula (ver
+   onEnter(), rama CAPSLOCK), así que no hace falta un segundo ícono para
+   "encendido". */
+.keyboard-content .line .key .content.CAPSLOCK {
+	background: #30364a url('../img/keyboard/shift.png') no-repeat center center;
+}
+
+.keyboard-content .line .key.focus .content.CAPSLOCK {
+	background: #afdeff url('../img/keyboard/shift-active.png') no-repeat center center;
+}
+
+.keyboard-content .line .key .content.BSP {
+	background: #30364a url('../img/keyboard/backspace.png') no-repeat center center;
+}
+
+.keyboard-content .line .key .content.DONE {
+	background: #30364a url('../img/keyboard/return.png') no-repeat center center;
+}
+
+.keyboard-content .line .key .content.SPACE {
+	background: #30364a url('../img/keyboard/space.png') no-repeat center center;
+}
+
+.keyboard-content .line .key .content.CA {
+	background: #30364a url('../img/keyboard/backspace-all.png') no-repeat center center;
+}
+
+.keyboard-content .line .key .content.LC {
+	background: #30364a url('../img/keyboard/left.png') no-repeat center center;
+}
+
+.keyboard-content .line .key .content.RC {
+	background: #30364a url('../img/keyboard/right.png') no-repeat center center;
+}
+
+.keyboard-content .line .key .content.GEAR {
+	background: #30364a url('../img/keyboard/gear.png') no-repeat center center;
+}
+
+.keyboard-content .line .key.focus .content.BSP {
+	background: #afdeff url('../img/keyboard/backspace-active.png') no-repeat center center;
+}
+
+.keyboard-content .line .key.focus .content.DONE {
+	background: #afdeff url('../img/keyboard/return-active.png') no-repeat center center;
+}
+
+.keyboard-content .line .key.focus .content.SPACE {
+	background: #afdeff url('../img/keyboard/space-active.png') no-repeat center center;
+}
+
+.keyboard-content .line .key.focus .content.CA {
+	background: #afdeff url('../img/keyboard/backspace-all-active.png') no-repeat center center;
+}
+
+.keyboard-content .line .key.focus .content.LC {
+	background: #afdeff url('../img/keyboard/left-active.png') no-repeat center center;
+}
+
+.keyboard-content .line .key.focus .content.RC {
+	background: #afdeff url('../img/keyboard/right-active.png') no-repeat center center;
+}
+
+.keyboard-content .line .key.focus .content.GEAR {
+	background: #afdeff url('../img/keyboard/gear-active.png') no-repeat center center;
+}
+
+.keyboard-cover {
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.1);
+	position: absolute;
+	z-index: 999;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}

@@ -1,0 +1,15 @@
+{
+  "js": [
+    "js/core/videojs-hlsjs-plugin.js"
+  ],
+  "css": [
+    "dev-only.css"
+  ],
+  "folders": [
+    "assets/plugins",
+    "js/lib"
+  ],
+  "skip": [
+    ".DS_Store"
+  ]
+}

@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=1280">
+  <title></title>
+
+  <!-- Global stylesheets starts -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/plugins/font-awesome/css/all.min.css">
+  <!-- Global stylesheets close -->
+
+  <!-- Video Player Css -->
+  <link href="https://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet" />
+
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  <link rel="stylesheet" type="text/css" href="css/keyboard.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/nbplayer.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/epg.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/epg-cards.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/dropdown.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/windows.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/osms.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/search.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/loading.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="assets/css/material-icons-round.css" rel="stylesheet">
+  <link href="assets/css/mat-controls.css" rel="stylesheet">
+
+  <script src="js/lib/LanguageCode.js"></script>
+  <script src="js/core/jquery.js"></script>
+  <script src="js/core/moment2.js"></script>
+  <!-- jasmine.js (framework de testing) ya no se carga aquí: solo se usa desde
+       el menú developer (tecla 6) y ahora se carga bajo demanda desde
+       core/module/developer.js -> execTests() -->
+  <script src="js/core/json2.js"></script>
+  <script src="js/core/md5.js"></script>
+  <script src="js/core/mustache.js"></script>
+  <script src="js/core/helpers.js"></script>
+  <script src="js/core/main.js"></script>
+  <script src="js/core/dropdown.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+
+  <script src="js/core/module/developer.js"></script>
+  <script src="js/core/module/events.js"></script>
+  <script src="js/core/module/device.js"></script>
+  <script src="js/core/module/storage.js"></script>
+  <script src="js/core/module/control.js"></script>
+  <!-- <script src="js/core/module/deferrable.js"></script> -->
+  <script src="js/core/module/focus.js"></script>
+  <script src="js/core/module/mouse.js"></script>
+  <!-- <script src="js/core/module/promise.js"></script> -->
+  <script src="js/core/module/router.js"></script>
+  <script src="js/core/module/input.js"></script>
+  <script src="js/core/module/inputAdapter.js"></script>
+  <script src="js/core/module/keyboard.js"></script>
+  <script src="js/core/module/scene.js"></script>
+  <script src="js/core/module/snippet.js"></script>
+  <script src="js/core/module/model.js"></script>
+  <script src="js/core/module/collection.js"></script>
+  <script src="js/core/module/ajax.js"></script>
+  <script src="js/core/module/i18n.js"></script>
+  <script src="js/core/module/player.js"></script>
+  <script src="js/core/module/player_audio.js"></script>
+  <script src="js/core/module/playready.js"></script>
+  <script src="js/core/module/subtitles.js"></script>
+  <script src="js/core/module/template.js"></script>
+  <script src="js/core/module/analytics.js"></script>
+
+  <!-- Samsung TV driver, 2012+ -->
+  <script src="js/core/device/samsung.js"></script>
+  <script src="js/core/device/samsung/storage.js"></script>
+  <script src="js/core/device/samsung/player.js"></script>
+
+  <!-- Tizen TV driver, 2015+ -->
+  <script src="js/core/device/tizen.js"></script>
+  <script src="js/core/device/tizen/player.js"></script>
+
+  <!-- LGE TV driver, 2012+ -->
+  <script src="js/core/device/lg.js"></script>
+  <script src="js/core/device/lg/player.js"></script>
+
+  <!-- Philips TV driver, 4.0+ -->
+  <script src="js/core/device/philips.js"></script>
+  <script src="js/core/device/philips/player.js"></script>
+
+  <!-- Dune HD driver, 1.0+ -->
+  <script src="js/core/device/dunehd.js"></script>
+  <script src="js/core/device/dunehd/player.js"></script>
+  <script src="js/core/device/dunehd/storage.js"></script>
+
+  <!-- Smart TV Alliance driver -->
+  <script src="js/core/device/alliance.js"></script>
+  <script src="js/core/device/alliance/player.js"></script>
+
+  <!-- Panasonic Viera driver, 2012+ -->
+  <script src="js/core/device/viera.js"></script>
+  <script src="js/core/device/viera/storage.js"></script>
+
+  <!-- Playstation driver, 3+ -->
+  <script src="js/core/device/playstation.js"></script>
+  <script src="js/core/device/playstation/player.js"></script>
+  <script src="js/core/device/playstation/storage.js"></script>
+
+  <!-- WebOS library - !!! DO NOT MINIMIZE !!! -->
+  <script src="js/core/device/webos/webOS.js"></script>
+  <!-- WebOS driver, 2.0+ -->
+  <script src="js/core/device/webos.js"></script>
+  <script src="js/core/device/webos/player.js"></script>
+
+  <!-- Sony driver -->
+  <script src="js/core/device/sony.js"></script>
+  <script src="js/core/device/sony/storage.js"></script>
+  <script src="js/core/device/sony/player.js"></script>
+
+  <!-- Toshiba driver -->
+  <script src="js/core/device/toshiba.js"></script>
+  <script src="js/core/device/toshiba/player.js"></script>
+
+  <!-- Hyundai/GoGen/Vestel driver -->
+  <script src="js/core/device/vestel.js"></script>
+  <script src="js/core/device/vestel/player-old.js"></script>
+
+  <!-- Android driver -->
+  <script src="js/core/device/android.js"></script>
+
+  <!-- HbbTV driver -->
+  <script src="js/core/device/hbbtv.js"></script>
+  <script src="js/core/device/hbbtv/player.js"></script>
+  <script src="js/core/device/hbbtv/storage.js"></script>
+
+  <!-- Hisense driver -->
+  <script src="js/core/device/hisense.js"></script>
+  <script src="js/core/device/hisense/player.js"></script>
+
+  <!-- Languages -->
+  <script src="js/i18n/en.js"></script>
+  <script src="js/i18n/pt.js"></script>
+  <script src="js/i18n/es.js"></script>
+  <script src="js/i18n/hu.js"></script>
+  <script src="js/i18n/sk.js"></script>
+
+  <script src="js/module/user.js"></script>
+  <script src="js/lib/bluebird.min.js"></script>
+  <script src="js/lib/sha256.js"></script>
+  <script src="js/core/utils.js"></script>
+
+  <script src="js/module/LoginHelper.js"></script>
+  <script src="js/scene/offline.js"></script>
+  <script src="js/scene/splash.js"></script>
+  <script src="js/scene/login.js"></script>
+  <script src="js/scene/loading.js"></script>
+  <script src="js/scene/licenses.js"></script>
+  <script src="js/scene/activation.js"></script>
+  <script src="js/module/Ads.js"></script>
+  <script src="js/module/SearchManager.js"></script>
+  <script src="js/module/Search.js"></script>
+  <script src="js/scene/home.js"></script>
+ 
+  <script src="js/app.js"></script>
+  <script src="config.brands.js"></script>
+  <script src="config.js"></script>
+
+  <script src="js/module/cv.js?v=telemetry-debug-2"></script>
+  <script src="js/module/Telemetry.js?v=telemetry-debug-4"></script>
+  <script src="js/module/Repo.js"></script>
+  <script src="js/module/app-data.js"></script>
+  <script src="js/module/epg.js"></script>
+  <script src="js/module/epg-details.js"></script>
+  <script src="js/module/EPGCards.js"></script>
+  <script src="js/module/ParentalControlDlg.js"></script>
+  <script src="js/module/InactivityManager.js"></script>
+  <script src="js/module/vod.js"></script>
+  <script src="js/module/VODDetail.js"></script>
+  <script src="js/module/NBAlert.js"></script>
+  <script src="js/module/PlayerFallback.js"></script>
+  <script src="js/module/LoginUdid.js"></script>
+  <script src="js/module/Osms.js"></script>
+
+  <script src="js/core/video-loader.js"></script>
+  <script src="js/module/nbplayer.js"></script>
+  <script src="js/core/network.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/node-forge@1.0.0/dist/forge.min.js"></script>
+
+  <style>
+    @charset "UTF-8";
+  </style>
+  <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+  <div class="common"></div>
+  <div id="viewport">
+    <!-- <div id="LOG" style="display: block; background-color: black; color: #FFF; font-size: 20px;"></div> -->
+    <div id="scene-splash" class="scene" style="display: none">
+    </div>
+    <div id="scene-login" class="scene sec-login" style="display: none">
+      <div class="login-div">
+        <div class="modal-dialog modallog" role="document">
+          <div class="modal-content modal-login generallogin">
+            <div class="titule">
+              <h3 class="modal-title title" id="loginWelcomeLabel"></h3>
+            </div>
+            <div class="row row-log">
+              <div class="text-center center center-img">
+                <img src="" alt="" class="img-thumbnail img-logo img-lis">
+              </div>
+            </div>
+            <div class="modal-body modal-login-body">
+              <div class="form-group userId-input-parent divinput">
+                <p id="txtUser"></p>
+                <div class="inputLogin">
+                  <img class="imgLogin" src="./img/Person.png"/>
+                  <input type="text" class="form-control-lg login-input txtLoginUserId focusable inputuser app-keyboard" id="txtLoginUserId" value="" readonly>
+                </div>
+              </div>
+              <div class="form-group password-input-parent divinput password-container">
+                <p id="txtPassword"></p>
+                <div class="inputLogin">
+                  <img class="imgLogin" src="./img/Pass.png"/>
+                  <input type="password" class="form-control-lg login-input txtLoginPassword focusable inputuser app-keyboard" id="txtLoginPassword" value="" readonly>
+                  <i class="material-icons-round toggle-password focusable" id="togglePassword">visibility</i>
+                </div>
+              </div>
+            </div>
+            <div class="login-button" id="loginbtn">
+              <div class="login buttonLoginStyle" style="display: block">
+                <button class="btn-default btn-lg btn-block focusable" id="btnLoginSubmit"></button>
+              </div>
+              <div class="login-udid buttonLoginStyle" style="display: none">
+                <p class="text-center text-muted" id="loginUdid"></p>
+                <button class="btn-default btn-lg btn-block focusable" id="btnUdidSubmit"></button>
+              </div>
+              <div class="register buttonLoginStyle" style="display: none">
+                <p class="text-center text-muted" id="loginRegisterLabel"></p>
+                <button class="btn-default btn-lg btn-block focusable" id="btnRegisterSubmit"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="external-login-modal" class="external-login-popup" style="display: none;">
+        <h3 class="modal-title" id="externalLoginTitle"></h3>
+
+        <div class="external-login-content">
+          <p id="externalLoginStatus"></p>
+
+          <!-- Área para código -->
+          <div id="externalLoginCodeContainer">
+            <div id="externalLoginCode" aria-label="External login code"></div>
+            <div id="externalLoginCountdown"></div>
+            <div id="externalLoginCodeHint"></div>
+            <div id="externalLoginQrCode" class="external-login-qrcode"></div>
+          </div>
+
+          <!-- Loader animado -->
+          <div id="externalLoginThrobber" class="external-login-throbber"></div>
+
+          <!-- Botones -->
+          <button class="btn-default btn-lg focusable" id="btnCancelExternalLogin"></button>
+          <button class="btn-default btn-lg focusable" id="btnRetryExternalLogin" style="display: none;"></button>
+        </div>
+      </div>
+    </div>
+    <div id="scene-licenses" class=" sec-licenses scene " style="display: none">
+      <div class="div-licenses div-lis">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content modal-login modal-lis">
+            <div class="row row-log">
+              <div class="text-center center center-img">
+                <img src="" alt="" class="img-thumbnail img-logo img-lis">
+              </div>
+            </div>
+            <div class="">
+              <h4 class="modal-title text-left" id="settingsLicenseInstructionsLabel"></h4>
+            </div>
+            <div class="modal-body" style="width: 100%">
+              <div class="list-group group-lis" id="divLicenses" style="height: 20em; overflow: auto; padding: 1em;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="scene-activation" class="scene" style="display: none">
+      <div class="div-licenses">
+        <div class="row">
+          <div class="col-sm-5 text-center center"></div>
+          <div class="col-sm-2 text-center center">
+            <img src="" alt="" class="img-thumbnail img-logo">
+          </div>
+          <div class="col-sm-5 text-center center"></div>
+        </div>
+        <div class="modal-dialog" role="document">
+          <div class="modal-content modal-login">
+            <div class="">
+              <h4 class="modal-title text-left" id="settingsEnterPINMessageLabel"></h4>
+              <b id="labelLicenseToActivate"></b>
+            </div>
+            <div class="modal-body">
+              <div class="form-group" id="containerLicensePin">
+                <input type="text" class="form-control-lg login-input focusable" id="txtLicensePin" placeholder="PIN"
+                  value="">
+              </div>
+              <div>
+                <button class="btn-default btn-lg btn-block focusable" id="btnActivate"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="scene-loading" class="scene" style="display: none">
+      <div class="loading-container">
+        <div class="loading-background"></div>
+        <div class="loading-content">
+          <div class="loading-logo-container">
+            <img src="" alt="" class="img-thumbnail img-logo loading-logo">
+          </div>
+
+          <!-- Spinner mejorado -->
+          <div class="loading-spinner-container">
+            <div class="loading-spinner">
+              <div class="spinner-inner"></div>
+            </div>
+          </div>
+
+          <!-- Barra de progreso -->
+          <div class="loading-progress-container">
+            <div class="loading-progress-bar">
+              <div class="loading-progress-fill" id="loadingProgressFill"></div>
+            </div>
+            <div class="loading-progress-text" id="loadingProgressText">0%</div>
+          </div>
+
+          <!-- Mensaje dinámico (texto inicial se reemplaza por i18n en render) -->
+          <div class="loading-text">
+            <p class="loading-message" id="loadingMessage"></p>
+            <p class="loading-submessage" id="loadingSubmessage"></p>
+          </div>
+
+          <!-- Tips informativos (texto inicial se reemplaza por i18n en render) -->
+          <div class="loading-tips-container">
+            <div class="loading-tip" id="loadingTip"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="scene-home" class="scene" style="display: none">
+      <div class="container-fluid">
+        <div class="row header-row">
+          <div class="row">
+            <div class="col-sm-2">
+              <img src="" alt="" class="img-thumbnail img-logo" id="topLogoImage">
+            </div>
+            <div class="col-sm-8">
+              <!-- Acceso directo y persistente al buscador (antes solo se
+                   podía llegar via el tile "Buscar" dentro de #menuRow, mezclado
+                   con otras opciones del menú tipo "Recargar"/"Salir"). Reutiliza
+                   el mismo data-other-id="5" que ese tile, así que dispara
+                   exactamente el mismo caso (case 5: Search.show()) en
+                   Scene_Home.onEnter/onFocus sin lógica nueva. -->
+              <div id="headerSearchIcon" class="focusable header-search-icon" data-other-id="5">
+                <span class="fa fa-search"></span>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="nb-time" id="nbTime"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 header-row-info">
+              <div id="channelInfoDiv" class="channel-info hidden" style="height: 100%; font-size: 1.2em;">
+                <div class="channel-info-wrapper">
+                  <div class="channel-info-content">
+                    <div class="channel-lcn-name">
+                      <span class="channel-name" id="channelNameLabel"></span>
+                      <h2><span class="label label-default" id="channelLcnLabel"></span></h2>
+                    </div>
+                    <p class="info-services" id="epgAtThisTimeLabel"></p>
+                    <p class="info-services font-bold" id="nowEventLabel"></p>
+                    <p class="info-services" id="epgNextLabel"></p>
+                    <p class="info-services font-bold" id="nextEventLabel"></p>
+
+                    <p class="info-epg font-bold" id="epgEventTitle"></p>
+                    <p class="info-epg" id="epgEventTime"></p>
+                    <p class="info-epg" id="epgEventDescription"></p>
+                  </div>
+                  
+                  <!-- Contenedor de imagen del evento EPG (solo visible si imageEventProgramPastEnabled está habilitado) -->
+                  <div id="channelEventImageContainer" class="channel-event-image-container" style="display: none;">
+                    <img id="channelEventImage" class="channel-event-image" src="" alt="" onerror="imgOnError(this)" />
+                  </div>
+                </div>
+              </div>
+              <div id="menuTitle" class="menu-title hidden">
+                <div id="menuSelectedLabel"></div>
+              </div>
+            </div>
+            <div class="col-sm-2 col-right-logo">
+              <img src="" alt="" class="img-right-logo img-logo hide" id="rightLogoImage">
+            </div>
+            <div class="col-sm-4">
+              <div id="divVideoContainer" class="video-container focusable pull-right">
+                <video id="mainVideo" class="video-js vjs-default-skin" controls preload="auto"
+                  data-setup='{"fluid": false}'></video>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row content-row" id="channelsGrid">
+          <div class="row publicidad-home-top"></div>
+          <!--<div class="row hidden" id="tvChannelsRow">
+          </div>-->
+          <div class="row hidden" id="favoritesRow">
+            <div class="col-sm-12 canales">
+              <div class="channels-div">
+                <h4 class="heading"></h4>
+                <div class="horizontal-slide">
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div id="channelCategoryGroup" class="row hidden"></div> -->
+          <div class="row hidden" id="catchupsRow"></div>
+          <div class="row hidden" id="catchupRecordingRow"></div>
+          <div class="row hidden" id="vodRow"></div>
+          <div class="row hidden" id="menuRow" style="margin-bottom: 2em;">
+            <div class="col-sm-12">
+              <div class="channels-div">
+                <h4 class="heading" id="menuTitleLabel"></h4>
+                <div class="horizontal-slide menu-grid">
+                  <!-- Actualizar datos -->
+                  <div class="channel-video other-option focusable" data-other-id="0">
+                    <span class="fa fa-redo"></span>
+                    <span id="menuUpdateDataLabel"></span>
+                  </div>
+                  <!-- Botón de búsqueda -->
+                  <div class="channel-video other-option focusable" data-other-id="5">
+                    <span class="fa fa-search"></span>
+                    <span id="menuSearch"></span>
+                  </div>
+                  <!-- Botón de OSMS -->
+                  <div class="channel-video other-option focusable" data-other-id="6">
+                    <span class="fa fa-sms"></span>
+                    <span id="menuOsmsLabel"></span>
+                  </div>
+                  <!-- Guía EPG -->
+                  <div class="channel-video other-option focusable" data-other-id="1">
+                    <span class="fa fa-bars"></span>
+                    <span id="menuEPGLabel"></span>
+                  </div>
+                  <!-- Información -->
+                  <div class="channel-video other-option focusable" data-other-id="2">
+                    <span class="fa fa-info-circle"></span>
+                    <span id="menuAboutLabel"></span>
+                  </div>
+                  <!-- Cerrar sesión -->
+                  <div class="channel-video other-option focusable" data-other-id="3">
+                    <span class="fa fa-sign-out-alt"></span>
+                    <span id="menuLogoutLabel"></span>
+                  </div>
+                  <!-- Salir -->
+                  <div class="channel-video other-option focusable" data-other-id="4">
+                    <span class="fa fa-window-close"></span>
+                    <span id="menuExitLabel"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row publicidad-home-bottom"></div>
+        </div>
+        <div class="col-sm-12 channels-div epg-container" id="epgContainer" style="visibility: hidden; display: none;">
+          <div id="epgDate" class="epg-container-item">
+            <div class="row">
+              <div class="epg-cell epg-hour-header epg-date-indicator"></div>
+            </div>
+          </div>
+          <div id="epgHours" class="epg-container-item epg-hours"></div>
+          <div class="epg-break"></div>
+          <div id="epgChannels" class="epg-container-item epg-channels"></div>
+          <div id="epgGrid" class="epg-container-item epg-grid"></div>
+          <div class="epg-message"></div>
+          <div id='epgFocusPosition'></div>
+        </div>
+        <!-- EPG Cards Modal (Fullscreen) -->
+        <div id="epgCardsModal" class="epg-cards-modal" style="display: none;">
+          <div class="epg-cards-overlay"></div>
+          <div class="epg-cards-container">
+            <!-- Cabecera fija (fuera del scroll) -->
+            <div id="epgCardsTimeHeader" class="epg-cards-time-header"></div>
+            <div class="epg-cards-content" id="epgCardsGrid">
+              <!-- Cards se renderizan aquí -->
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 channels-div vod-container" id="vodContainer" style="visibility: hidden;">
+          <div id="vodList"></div>
+        </div>
+        <div id="vodDetailContainer"
+          style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; visibility: hidden; z-index: 999; padding: 1.5em;">
+          <div class="vod-detail-container">
+            <div class="vod-container-top">
+              <div class="vod-top-left">
+                <div>
+                  <img src="" alt="" class="vod-picture">
+                </div>
+                <div class="vod-top-left-play focusable"><i class="fa fa-play"></i></div>
+              </div>
+              <div class="vod-top-right">
+                <div class="vod-top-right-title"></div>
+                <div class="vod-top-right-category"></div>
+                <div class="vod-top-right-subtitle">
+                  <div class="vod-top-time font-bold"></div>
+                  <div class="vod-top-rating" style="display: flex!important;"></div>
+                </div>
+                <div class="vod-top-right-description"></div>
+              </div>
+            </div>
+            <div class="vod-container-bottom">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, consequatur. Quibusdam rerum blanditiis
+              deserunt sint esse. Laboriosam minus optio harum facere, exercitationem molestias eaque recusandae
+              suscipit laudantium illo atque necessitatibus?
+            </div>
+          </div>
+
+          <div class="serie-detail-container" style="height: 100%;width: 100%; color: #FFF; font-size: 1.2em;">
+            <div style="display: flex;flex-direction: row; height: 100%;">
+              <div style="width: 55%;">
+                <div style="height: 50%;text-align: center;position: relative;">
+                  <div style="height: 100%;text-align: center;">
+                    <img src="" alt="" style="height: 100%; max-width: 90%;" class="vod-serie-picture">
+                  </div>
+                </div>
+                <div style="height: 50%;">
+                  <div class="vod-top-right-title"></div>
+                  <div class="vod-top-right-category"></div>
+                  <div class="vod-top-right-subtitle">
+                    <div class="vod-top-time font-bold"></div>
+                    <div class="vod-top-rating" style="display: flex!important;"></div>
+                  </div>
+                  <div class="vod-top-right-description"></div>
+                </div>
+              </div>
+              <div style="flex: 1; width: 45%; overflow: hidden; display: flex; flex-direction: column;">
+                <h1 id="episodesLabel" style="text-align: center; margin: 0.4em;"></h1>
+                <div>
+                  <div class="nb-dropdown"></div>
+                </div>
+                <div class="serie-episodes">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="scene-offline" class="scene" style="display: none; font-size: 1.3em">
+      <div class="div-licenses">
+        <div class="row">
+          <div class="col-sm-5 text-center center"></div>
+          <div class="col-sm-2 text-center center">
+            <img src="" alt="" class="img-thumbnail img-logo">
+          </div>
+        </div>
+        <div class="modal-dialog" role="document">
+          <div class="modal-content modal-login">
+            <div class="">
+              <div class="modal-title text-left" id="offlineTitle"></div>
+            </div>
+            <div class="modal-body">
+              <div class="text-left" id="offlineMessage"></div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <button class="btn-default btn-lg btn-block focusable" id="offlineRetryButton">Reintentar</button>
+              </div>
+              <div class="col-md-6">
+                <button class="btn-default btn-lg btn-block focusable" id="offlineExitButton">Salir</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="searchContainer" class="search-panel hidden">
+    <!-- Barra superior (minimalista) -->
+    <div class="search-topbar">
+      <div class="search-input-container">
+        <span class="search-icon">🔍</span>
+        <input id="searchInput" class="custom-input focusable app-keyboard" type="text" autocomplete="off" autocorrect="off"
+          autocapitalize="off" spellcheck="false" readonly />
+        <span id="searchResultsCount" class="search-results-count"></span>
+        <button id="closeSearchButton" class="close-btn focusable">×</button>
+      </div>
+    </div>
+
+    <!-- Tabs por tipo -->
+    <div id="searchTabs" class="search-tabs">
+    </div>
+
+    <!-- Resultados del buscador -->
+    <div id="searchResults" class="search-results">
+      <!-- Los resultados aparecerán aquí dinámicamente -->
+    </div>
+  </div>
+
+
+  <!-- Start: Old controls (remove it) -->
+  <div id="nbVjsControlsTemplate" style="display: none">
+    <!-- https://fontawesomeicons.com/ -->
+    <!-- https://www.svgrepo.com/ -->
+    <div class="nb-vjs-vod-controls">
+      <div class="nb-vjs-vod-controls-top-background"></div>
+      <div class="nb-vjs-vod-controls-bottom-background"></div>
+      <table class="nb-vjs-vod-table">
+        <tr>
+          <td style="position: relative; width: 6em;">
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-back-button focusable">
+              <svg data-type="play"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" fill="#1D1E22" width="3em" height="3em" viewBox="0 0 16 16">
+                <path
+                  d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+              </svg>
+            </a>
+          </td>
+          <td style="position: relative; width: 5em;">
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-epg-button focusable">
+              <svg style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" fill="#1D1E22"
+                xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify" viewBox="0 0 375 374.9999"
+                preserveAspectRatio="xMidYMid meet" version="1.0">
+                <defs>
+                  <path
+                    d="M 7.09375 7.09375 L 367.84375 7.09375 L 367.84375 367.84375 L 7.09375 367.84375 Z M 7.09375 7.09375 "
+                    fill="#000000"></path>
+                </defs>
+                <g>
+                  <path
+                    d="M 187.46875 7.09375 C 87.851562 7.09375 7.09375 87.851562 7.09375 187.46875 C 7.09375 287.085938 87.851562 367.84375 187.46875 367.84375 C 287.085938 367.84375 367.84375 287.085938 367.84375 187.46875 C 367.84375 87.851562 287.085938 7.09375 187.46875 7.09375 "
+                    fill-opacity="1" fill-rule="nonzero"></path>
+                </g>
+                <g transform="translate(85, 75)"> <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"
+                    fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16" id="IconChangeColor">
+                    <path fill-rule="evenodd"
+                      d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"
+                      id="mainIconPathAttribute" stroke-width="1" stroke="#ffffff"></path>
+                    <path
+                      d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"
+                      id="mainIconPathAttribute" stroke="#ffffff"></path>
+                    <path fill-rule="evenodd"
+                      d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"
+                      id="mainIconPathAttribute" stroke="#ffffff"></path>
+                  </svg>
+                </g>
+              </svg>
+              <span class="nb-vjs-epg-button-tooltip nb-vjs-tooltip"></span>
+            </a>
+          </td>
+          <td style="position: relative; width: 5em;">
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-side-menu-button focusable">
+              <svg style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="3em" height="3em"
+                fill="none" stroke="#000000">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16 9V7H8V9H16ZM8 17V15H16V17H8ZM16 11H8V13H16V11Z"
+                    fill="#000000"></path>
+                </g>
+              </svg>
+              <span class="nb-vjs-side-menu-button-tooltip nb-vjs-tooltip"></span>
+            </a>
+          </td>
+          <td style="position: relative; width: 5em;">
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-tracks-button focusable">
+              <svg data-type="play"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" fill="#1D1E22" width="3em" height="3em" viewBox="0 0 16 16">
+                <path
+                  d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM3.5 5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zM5 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm2 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z" />
+              </svg>
+            </a>
+            <div class="nb-vjs-tracks-div" style="display: none;">
+              <table class="nb-vjs-tracks-table">
+                <thead>
+                  <tr>
+                    <th class="nb-vjs-tracks-audio-title nb-vjs-track-audio"></th>
+                    <th class="nb-vjs-tracks-subtitles-title nb-vjs-track-subtitle"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </td>
+          <td colspan="3"></td>
+          <td style="width: 5em;">
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-next-button focusable">
+              <svg data-type="play"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" fill="#1D1E22" width="3em" height="3em" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407L9.5 8.972V10.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-1 0v1.528L6.79 5.093z" />
+              </svg>
+              <span class="nb-vjs-next-button-tooltip nb-vjs-tooltip"></span>
+            </a>
+          </td>
+          <td class="nb-vjs-vod-time" style="width: 8em;"></td>
+        </tr>
+        <tr>
+          <td colspan="9"></td>
+        </tr>
+        <tr>
+          <td>
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-play-pause-button focusable">
+              <svg data-type="play"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" fill="#1D1E22" width="4.5em" height="4.5em" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+              </svg>
+              <svg data-type="pause"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22; display:none"
+                xmlns="http://www.w3.org/2000/svg" fill="#1D1E22" width="4.5em" height="4.5em" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z" />
+              </svg>
+            </a>
+          </td>
+          <td>
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-start-button focusable">
+              <svg data-type="start"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" fill="#1D1E22"
+                class="bi bi-skip-start-circle-fill" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM9.71 5.093 7 7.028V5.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0V8.972l2.71 1.935a.5.5 0 0 0 .79-.407v-5a.5.5 0 0 0-.79-.407z" />
+              </svg>
+              <span class="nb-vjs-start-button-tooltip nb-vjs-tooltip"></span>
+            </a>
+          </td>
+          <td>
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-backx-button focusable">
+              <svg data-type="backx"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" fill="#1D1E22"
+                class="bi bi-skip-forward-circle-fill" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.79-2.907L8.5 7.028V5.5a.5.5 0 0 0-.79-.407L5 7.028V5.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0V8.972l2.71 1.935a.5.5 0 0 0 .79-.407V8.972l2.71 1.935A.5.5 0 0 0 12 10.5v-5a.5.5 0 0 0-.79-.407z" />
+              </svg>
+              <span class="nb-vjs-backx-button-tooltip nb-vjs-tooltip"></span>
+            </a>
+          </td>
+          <td>
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-forwardx-button focusable">
+              <svg data-type="forwardx"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" fill="#1D1E22"
+                class="bi bi-skip-forward-circle-fill" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.79 5.093A.5.5 0 0 0 4 5.5v5a.5.5 0 0 0 .79.407L7.5 8.972V10.5a.5.5 0 0 0 .79.407L11 8.972V10.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-1 0v1.528L8.29 5.093a.5.5 0 0 0-.79.407v1.528L4.79 5.093z" />
+              </svg>
+              <span class="nb-vjs-forwardx-button-tooltip nb-vjs-tooltip"></span>
+            </a>
+          </td>
+          <td>
+            <a href="javascript:;" class="nb-vjs-button nb-vjs-end-button focusable">
+              <svg data-type="end"
+                style="background: #FFF; border-radius: 50%; box-shadow: inset 0 0 10px 10px #1D1E22;"
+                xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" fill="#1D1E22"
+                class="bi bi-skip-start-circle-fill" viewBox="0 0 16 16">
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407L9.5 8.972V10.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-1 0v1.528L6.79 5.093z" />
+              </svg>
+              <span class="nb-vjs-end-button-tooltip nb-vjs-tooltip"></span>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td class="nb-vjs-vod-current-time"></td>
+          <td colspan="7" class="nb-vjs-vod-seek">
+            <div class='nb-seekbar focusable'>
+              <div>
+                <div></div>
+              </div>
+            </div>
+          </td>
+          <td class="nb-vjs-vod-duration"></td>
+        </tr>
+        <tr class="nb-vjs-epg-data-tr">
+          <td colspan="2">
+            <div class="vjs-control vjs-nb-item-image" class='radius-5'><img src='' class='radius-5' /></div>
+          </td>
+          <td colspan="7">
+            <div class="nb-vjs-epg-data">
+              <div class="nb-vjs-vod-title"></div>
+              <div class="nb-vjs-epg-now"></div>
+              <div class="nb-vjs-epg-now-time"></div>
+              <div class="nb-vjs-separator"></div>
+              <div class="nb-vjs-epg-next"></div>
+          </td>
+    </div>
+    </tr>
+    </table>
+  </div>
+  </div>
+  <!-- End: Old controls (remove it) -->
+
+  <div id="matControlsTemplate" style="display: none">
+    <div class="mat-controls">
+      <!-- Botones de nav player -->
+      <div class="mat-controls-row">
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="back">
+            <img class="custom-icons" alt="Epg" src='./img/arrowback.png'>
+          </div>
+        </div>
+        <div class="mat-controls-item nb-vjs-vod-title-top-container">
+          <div class="nb-vjs-vod-title-top"></div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="side-menu">
+            <span class="material-icons-round">reorder</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="epg">
+            <img class="custom-icons" alt="Epg" src='./img/epg.png'>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="info">
+            <span class="material-icons-round">info</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="start">
+            <span class="material-icons-round">skip_previous</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="backx">
+            <span class="material-icons-round">fast_rewind</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="play-pause">
+            <span class="material-icons-round" data-type="pause">pause</span>
+            <span class="material-icons-round" data-type="play">play_arrow</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="forwardx">
+            <span class="material-icons-round">fast_forward</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="end">
+            <span class="material-icons-round">skip_next</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="next-episode">
+            <span class="material-icons-round">read_more</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="tracks">
+            <span class="material-icons-round">subtitles</span>
+          </div>
+          <div class="nb-vjs-tracks-div" style="display: none;">
+            <table class="nb-vjs-tracks-table">
+              <thead>
+                <tr>
+                  <th class="nb-vjs-tracks-audio-title nb-vjs-track-audio"></th>
+                  <th class="nb-vjs-tracks-subtitles-title nb-vjs-track-subtitle"></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="unfavorite">
+            <span class="material-icons-round" data-type="favorited">star</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="favorite">
+            <span class="material-icons-round" data-type="add-favorite">star_outline</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="lock">
+            <span class="material-icons-round" data-type="no-lock">lock_open</span>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="mat-controls-item-control focusable" data-type="unlock">
+            <span class="material-icons-round" data-type="locked">lock</span>
+          </div>
+        </div>
+
+
+        <div class="mat-controls-item mat-controls-right"></div>
+        <div class="mat-controls-item">
+          <div class="nb-vjs-vod-time"></div>
+        </div>
+      </div>
+
+      <div class="mat-controls-row mat-controls-bottom">
+      </div>
+
+      <!-- Seekbar player -->
+      <div class="mat-controls-row seekbar-container" style="height: auto; padding: 0.5em 0 1em 0;">
+        <div class="mat-controls-item">
+          <div class="nb-vjs-vod-current-time" style="width: 5em; text-align: center;"></div>
+        </div>
+        <div class="mat-controls-item" style="width: 100%; top: 50%; transform: translateY(-50%);">
+          <div class='nb-seekbar focusable' data-type="seekbar" tabindex="1">
+            <div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+        <div class="mat-controls-item">
+          <div class="nb-vjs-vod-duration" style="width: 5em; text-align: center;"></div>
+        </div>
+      </div>
+
+      <!-- EPG player -->
+      <div class="mat-controls-row nb-vjs-epg-data-tr" style="height: auto;">
+        <div class="mat-controls-item">
+          <div class="vjs-control vjs-nb-item-image" class='radius-5'
+            style="width: 5em !important; height: auto !important;"><img src='' class='radius-5' /></div>
+        </div>
+        <div class="mat-controls-item" style="width: 100%;">
+          <div class="nb-vjs-epg-data">
+            <div class="nb-vjs-vod-title"></div>
+            <div class="nb-vjs-epg-now"></div>
+            <div class="nb-vjs-epg-now-time"></div>
+            <div class="nb-vjs-separator"></div>
+            <div class="nb-vjs-epg-next"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Start: OSMS Dialog -->
+  <div id="osmsDialog" class="dialog-osms hidden">
+    <div class="dialog-osms-header">
+      <h4 id="OsmsDialogTitle"></h4>
+    </div>
+    <div class="dialog-osms-body">
+      <div id="osmsList"></div>
+      <div id="osmsDetailContainer" class="hidden"></div>
+    </div>
+    <div class="dialog-osms-footer ">
+      <button id="closeOsmsDialogFooter" class="focusable"></button>
+    </div>
+  </div>
+  </div>
+    <div id="osmsDetailContainer" class="hidden"></div>
+  </div>
+
+
+</body>
+
+</html>

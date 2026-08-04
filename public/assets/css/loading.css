@@ -1,0 +1,234 @@
+/**
+ * Loading Scene Styles
+ * Estilos independientes para el componente de carga
+ *
+ * @author AuroraTech
+ */
+
+/* Contenedor principal de la escena de carga */
+#scene-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Contenedor interno del loading */
+.loading-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fondo de la pantalla de carga */
+.loading-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+/* Contenido principal (logo, spinner, texto) */
+.loading-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Contenedor del logo */
+.loading-logo-container {
+  margin-bottom: 3em;
+}
+
+/* Estilos del logo */
+.loading-logo {
+  max-width: 300px;
+  max-height: 150px;
+  width: auto;
+  height: auto;
+}
+
+/* Contenedor del spinner */
+.loading-spinner-container {
+  margin-bottom: 2em;
+}
+
+/* Spinner de carga animado mejorado */
+.loading-spinner {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* Antes: el spinner tenía 3 anillos girando a la vez (este anillo interior,
+   un ::before girando en sentido contrario, y el contenedor exterior
+   también con su propio spin) -- puro adorno redundante, mismo mensaje de
+   "cargando" repetido 3 veces. Se deja un solo anillo girando, controlado
+   por la clase que ya alterna startLoadingAnimation()/destroy() en
+   loading.js (sin cambios de JS necesarios). */
+.spinner-inner {
+  width: 100%;
+  height: 100%;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #3498db;
+  border-right-color: #2ecc71;
+  border-radius: 50%;
+}
+
+.loading-spinner-active .spinner-inner {
+  animation: spin 1s linear infinite;
+}
+
+/* Animación de rotación del spinner */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Antes: el logo pulsaba (escala + opacidad) sin parar durante toda la
+   carga -- una animación más compitiendo por atención junto al spinner y
+   la barra de progreso, sin aportar información nueva. Se deja estático;
+   el spinner y la barra ya comunican "cargando" con claridad. */
+
+/* Barra de progreso */
+.loading-progress-container {
+  width: 400px;
+  max-width: 80%;
+  margin: 2em 0;
+}
+
+.loading-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.loading-progress-text {
+  color: #fff;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* Contenedor del texto de carga */
+.loading-text {
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: 300;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Mensaje de carga */
+.loading-message {
+  margin: 0;
+  padding: 0;
+  letter-spacing: 2px;
+}
+
+/* Mensaje secundario */
+.loading-submessage {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  min-height: 1.5em;
+}
+
+/* Tips informativos */
+.loading-tips-container {
+  margin-top: 3em;
+  max-width: 500px;
+  padding: 0 2em;
+}
+
+/* Antes: este texto tenía a la vez una animación CSS infinita de opacidad
+   (fadeInOut) Y un fadeOut/fadeIn por jQuery cada 4s desde
+   initLoadingTips() en loading.js -- dos sistemas distintos animando la
+   misma opacidad al mismo tiempo. Se deja solo la transición de
+   loading.js (ligada a un cambio real de contenido, no un parpadeo
+   continuo sin motivo). */
+.loading-tip {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ============================================
+   Modo mínimo: solo logo + spinner (loadingDesign: false)
+   ============================================ */
+#scene-loading.loading-design-minimal .loading-progress-container,
+#scene-loading.loading-design-minimal .loading-text,
+#scene-loading.loading-design-minimal .loading-tips-container {
+  display: none !important;
+}
+
+#scene-loading.loading-design-minimal .loading-content {
+  gap: 0;
+}
+
+#scene-loading.loading-design-minimal .loading-logo-container {
+  margin-bottom: 1.5em;
+}
+
+#scene-loading.loading-design-minimal .loading-spinner-container {
+  margin-bottom: 0;
+}

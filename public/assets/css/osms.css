@@ -1,0 +1,298 @@
+/* ============================================
+   Estilos para el módulo OSM (On-Screen Messages)
+   ============================================ */
+
+/* Botón de cerrar detalle de OSM */
+#closeOsmsDetail {
+  padding: 5px 15px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#closeOsmsDetail:hover {
+  background-color: #0056b3;
+}
+
+#closeOsmsDetail.item-focus {
+  background-color: #787878;
+  color: #fff;
+  border-radius: 5px; /* Ajustar según el diseño del botón */
+}
+
+/* Estilos generales para el cuadro de diálogo */
+.dialog-osms {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: 600px;
+  max-height: 70%; /* Ya está bien definido */
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cabecera del cuadro de diálogo */
+.dialog-osms-header {
+  background-color: #f4f4f4;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.dialog-osms-header h4 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.dialog-osms-header button {
+  background: transparent;
+  border: none;
+  font-size: 1.2em;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.dialog-osms-header button:hover {
+  color: #000;
+}
+
+/* Cuerpo del cuadro de diálogo */
+.dialog-osms-body {
+  flex: 1;
+  overflow-y: auto; /* Mantenemos el scroll vertical */
+  padding: 15px;
+  font-size: 0.9em;
+  color: #333;
+  background-color: #fafafa;
+  scroll-behavior: smooth; /* Suaviza el desplazamiento */
+}
+
+/* Elemento individual de mensaje */
+.osm-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-height: 60px; /* Altura mínima consistente para facilitar el scroll */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.osm-item:last-child {
+  border-bottom: none;
+}
+
+.osm-item:hover {
+  background-color: #787878;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.item-focus {
+  background-color: #787878;
+  color: #fff;
+  border-radius: 20px;
+}
+
+/* Pie de diálogo */
+.dialog-osms-footer {
+  background-color: #f4f4f4;
+  padding: 10px;
+  text-align: right;
+  border-top: 1px solid #ddd;
+}
+
+.dialog-osms-footer button {
+  padding: 5px 15px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dialog-osms-footer button:hover {
+  background-color: #0056b3;
+}
+
+.dialog-osms-footer button.item-focus {
+  background-color: #787878;
+  color: #fff;
+  border-radius: 5px; /* Ajustar según el diseño del botón */
+}
+
+/* Contador en botón OSM */
+.other-option[data-other-id='6'] {
+  position: relative;
+}
+
+.osm-counter-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  min-width: 30px;
+  height: 27px;
+  padding: 2px 6px;
+  background-color: #666;
+  color: white;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 16px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Cuando hay mensajes nuevos.
+   Punto 30: antes pulsaba con "infinite" -- indefinidamente mientras el
+   mensaje quedara sin leer, sin importar si la pantalla de inicio ni
+   siquiera es donde el usuario tiene puesta la atención (ej. viendo el
+   mini-player). Se deja un número fijo de pulsos (3, ~5s) para llamar la
+   atención al aparecer sin quedar animando de fondo para siempre; el
+   badge en sí (color rojo + sombra) permanece visible y notorio incluso
+   después de que el pulso termina, así no se pierde la señal de "hay algo
+   nuevo". */
+.osm-counter-badge.has-new {
+  background-color: #ff4444;
+  animation: pulse-badge 1.6s ease-in-out 3;
+  box-shadow: 0 0 8px rgba(255, 68, 68, 0.8);
+}
+
+/* Opcional: resaltar el botón cuando hay nuevos */
+/* .other-option[data-other-id='6'].has-new-messages {
+  background-color: rgba(255, 68, 68, 0.1);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+} */
+
+@keyframes pulse-badge {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.8);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(255, 68, 68, 1);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.8);
+  }
+}
+
+/* Estilo para mensajes vacíos */
+.osms-empty {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* Contenedor del detalle de OSMS */
+#osmsDetailContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 90%;
+  max-width: 800px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1000;
+  display: block;
+}
+
+.osms-detail {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Estilo del título */
+#osmsDetailContainer h4 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Estilo del mensaje */
+#osmsDetailContainer p {
+  font-size: 1.2em;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+/* Animación de entrada */
+#osmsDetailContainer.show {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Punto 30: toast de "llegó un mensaje nuevo" (ver Osms.js ->
+   showNewMessageToast, disparado desde el polling periódico). A
+   diferencia de .dialog-osms, esto NO es modal: no tiene clase
+   "focusable" (el control remoto lo ignora por completo, sigue
+   navegando lo que sea que el usuario tenía enfocado) y se auto-oculta
+   sola sin requerir ninguna acción. Se posiciona abajo a la derecha para
+   no tapar el contenido principal ni el EPG mientras se reproduce algo. */
+.osms-toast {
+  position: fixed;
+  right: 2em;
+  bottom: 2em;
+  max-width: 22em;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  background: rgba(20, 20, 20, 0.95);
+  border-left: 0.3em solid #ff4444;
+  border-radius: 0.4em;
+  padding: 0.9em 1.2em;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 1500;
+  opacity: 0;
+  transform: translateY(0.6em);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.osms-toast.osms-toast-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.osms-toast-icon {
+  font-size: 1.4em;
+  line-height: 1;
+}
+
+.osms-toast-text {
+  font-size: 0.95em;
+  line-height: 1.3;
+}
+
