@@ -101,6 +101,8 @@ I18n.translations.FR = {
   "MenuEPGDescription": "Aller à EPG",
   "MenuSearch": "Rechercher une chaîne",
   "CustomSearch": "Rechercher...",
+  "All": "Tous",
+  "Services": "Services",
   "SearchRecent": "Recherches récentes",
   "SearchClearHistory": "Effacer l'historique",
   "SearchLive": "En direct",

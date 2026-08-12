@@ -101,6 +101,8 @@ I18n.translations.SK = {
   "MenuEPGDescription": "Prejsť na EPG",
   "MenuSearch": "Vyhľadať kanál",
   "CustomSearch": "Vyhľadať...",
+  "All": "Všetky",
+  "Services": "Služby",
   "SearchRecent": "Nedávne vyhľadávania",
   "SearchClearHistory": "Vymazať históriu",
   "SearchLive": "Naživo",

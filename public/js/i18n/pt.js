@@ -113,6 +113,8 @@ I18n.translations.PT = {
   "MenuEPGDescription": "Ir para EPG",
   "MenuSearch": "Buscar Canal",
   "CustomSearch": "Buscar...",
+  "All": "Todos",
+  "Services": "Serviços",
   "SearchRecent": "Pesquisas recentes",
   "SearchClearHistory": "Limpar histórico",
   "SearchLive": "Ao vivo",

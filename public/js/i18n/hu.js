@@ -101,6 +101,8 @@ I18n.translations.HU = {
   "MenuEPGDescription": "Ugrás az EPG-re",
   "MenuSearch": "Csatornakeresés",
   "CustomSearch": "Keresés...",
+  "All": "Összes",
+  "Services": "Szolgáltatások",
   "SearchRecent": "Legutóbbi keresések",
   "SearchClearHistory": "Előzmények törlése",
   "SearchLive": "Élő",

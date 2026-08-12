@@ -667,37 +667,14 @@ var Search = (function (Events) {
     // NAVEGACIÓN CON EL CONTROL REMOTO
     // ============================================
 
-    /**
-     * Calcula cuántas cards entran por fila midiendo posiciones reales en
-     * el DOM, en vez de asumir un número fijo. Esto desacopla la
-     * navegación de la cantidad de columnas que defina el CSS (antes el
-     * grid estaba fijo a 6 columnas en CSS Y hardcodeado a 6 en este
-     * cálculo -- cualquier cambio de uno rompía el otro en silencio).
-     */
-    _getColumnsPerRow: function ($items) {
-      if (!$items || $items.length < 2) return 1;
-      var firstTop = $items.eq(0).position().top;
-      var count = 1;
-      for (var i = 1; i < $items.length; i++) {
-        if (Math.abs($items.eq(i).position().top - firstTop) < 1) {
-          count++;
-        } else {
-          break;
-        }
-      }
-      return count || 1;
-    },
-
     navigate: function (direction, $el) {
       var $closeButton = this.$closeButton;
       var $input = this.$input;
       var $tabs = this.$tabsContainer.find(".search-tab.focusable:not(.hidden)");
       var $results = this.$resultsContainer.find(".result-item.focusable, .search-recent-chip.focusable, .search-recent-clear.focusable");
-      var totalResultsPerRow = this._getColumnsPerRow(this.$resultsContainer.find(".result-item.focusable"));
 
       var $resultsContainer = this.$resultsContainer;
       var containerHeight = $resultsContainer.height();
-      var itemHeight = $results.first().outerHeight(true) || 0;
 
       if ($el.is($closeButton)) {
         if (direction === "down" && $input.length) {
@@ -745,68 +722,159 @@ var Search = (function (Events) {
       }
 
       // Navegación dentro de RESULTADOS (incluye chips de "recientes")
+      // Navegación dentro de RESULTADOS (incluye chips de "recientes").
+      //
+      // IMPORTANTE: en el tab "Todos" los resultados están agrupados en
+      // secciones (Servicios / En pantalla / VOD / Catchup) separadas por
+      // un <div class="search-section-title"> con grid-column:1/-1 (ver
+      // search.css), que fuerza un salto de fila en el grid. Por eso no se
+      // puede navegar con aritmética de índice fijo (currentIndex ±
+      // columnasPorFila): en cuanto una sección no termina en un múltiplo
+      // exacto de columnas, el índice de la sección siguiente queda
+      // desalineado de la fila visual real.
+      //
+      // La navegación se hace leyendo la posición real de cada card en el
+      // DOM y agrupando por fila/columna -- pero con **offsetTop/
+      // offsetLeft nativos, NO jQuery .position()/.offset()**. .position()
+      // usa getBoundingClientRect(), que sí refleja transforms CSS, y
+      // .result-item:focus tiene `transform: scale(1.05)` (ver
+      // search.css) -- la card que tiene el foco se mide con un top/left
+      // ~4px corrido respecto a sus vecinas sin foco, rompiendo la
+      // agrupación por fila. offsetTop/offsetLeft reflejan la caja de
+      // layout (CSS box model) y no se ven afectados por transform, así
+      // que dan el mismo valor esté o no la card enfocada/escalada.
+      // Navegación dentro de RESULTADOS (incluye chips de "recientes").
+      //
+      // IMPORTANTE: en el tab "Todos" los resultados están agrupados en
+      // secciones (Servicios / En pantalla / VOD / Catchup) separadas por
+      // un <div class="search-section-title"> con grid-column:1/-1 (ver
+      // search.css), que fuerza un salto de fila en el grid. Por eso no se
+      // puede navegar con aritmética de índice fijo -- en cuanto una
+      // sección no termina en un múltiplo exacto de columnas, el índice de
+      // la sección siguiente queda desalineado de la fila visual real.
+      //
+      // La navegación agrupa por posición real en el DOM usando
+      // offsetTop/offsetLeft nativos (NO jQuery .position()/.offset(), que
+      // usan getBoundingClientRect() y por lo tanto sí reflejan `transform:
+      // scale(1.05)` de .result-item:focus -- eso hacía que la card
+      // enfocada se midiera corrida respecto a sus vecinas sin foco).
+      //
+      // ROW_TOLERANCE: cards de la MISMA fila de CSS Grid no siempre
+      // reportan exactamente el mismo offsetTop -- se vieron diferencias de
+      // ~2px entre "compañeros de fila" (subpíxel de layout con alturas en
+      // em). Con una tolerancia de 1px, esos compañeros quedaban
+      // clasificados como "otra fila", así que ARRIBA/ABAJO en realidad
+      // terminaba moviendo el foco DENTRO de la misma fila (de ahí que
+      // "arriba" se sintiera como "derecha" y luego oscilara). El salto
+      // real entre filas es de cientos de píxeles, así que un margen de
+      // 10px es más que suficiente para absorber el jitter sin confundir
+      // dos filas reales entre sí.
       if ($el.hasClass("result-item") || $el.hasClass("search-recent-chip") || $el.hasClass("search-recent-clear")) {
-        var currentResultIndex = $results.index($el);
-        if (currentResultIndex < 0) currentResultIndex = 0;
+        var ROW_TOLERANCE = 10;
+        var currentTop = $el[0].offsetTop;
+        var currentLeft = $el[0].offsetLeft;
 
-        if (direction === "up") {
-          var prevIndex = currentResultIndex - totalResultsPerRow;
-          if (prevIndex >= 0) {
-            Focus.to($results.eq(prevIndex));
-            var itemOffsetUp = $results.eq(prevIndex).position().top;
-            if (itemOffsetUp < 0 && itemHeight > 0) {
-              $resultsContainer.scrollTop($resultsContainer.scrollTop() - itemHeight);
-            }
-            if (prevIndex < totalResultsPerRow) {
-              setTimeout(function () { $resultsContainer.scrollTop(0); }, 10);
-            }
-          } else if ($tabs.length) {
-            Focus.to($tabs.first());
-          } else if ($input.length) {
-            Focus.to($input);
-          }
-          return true;
-        }
-
-        if (direction === "down") {
-          var nextIndex = currentResultIndex + totalResultsPerRow;
-          // Si no hay más elementos ya renderizados pero sí más datos
-          // pendientes para el tab activo, se agranda el lote y se
-          // recalcula (mismo criterio que gridOptimization() en epg.js:
-          // "agrandar y reintentar" en vez de quedar topeado).
-          if (nextIndex >= $results.length) {
-            if (this._growIfNeeded()) {
+        if (direction === "up" || direction === "down") {
+          if (direction === "down") {
+            var lastTop = $results.length ? $results.last()[0].offsetTop : 0;
+            if (Math.abs(currentTop - lastTop) < ROW_TOLERANCE && this._growIfNeeded()) {
               $results = this.$resultsContainer.find(".result-item.focusable, .search-recent-chip.focusable, .search-recent-clear.focusable");
             }
           }
-          if (nextIndex < $results.length) {
-            Focus.to($results.eq(nextIndex));
-            var itemOffsetDown = $results.eq(nextIndex).position().top;
-            if (itemHeight > 0 && itemOffsetDown + itemHeight > containerHeight) {
-              $resultsContainer.scrollTop($resultsContainer.scrollTop() + itemHeight);
+
+          // Agrupar los offsetTop candidatos por clusters (en vez de valores
+          // exactos) para que el jitter de subpíxel no cree "filas" de más.
+          var rowTops = [];
+          $results.each(function () {
+            var t = this.offsetTop;
+            var isTarget = direction === "up" ? (t < currentTop - ROW_TOLERANCE) : (t > currentTop + ROW_TOLERANCE);
+            if (!isTarget) return;
+            for (var ci = 0; ci < rowTops.length; ci++) {
+              if (Math.abs(rowTops[ci] - t) < ROW_TOLERANCE) return;
             }
+            rowTops.push(t);
+          });
+
+          if (rowTops.length === 0) {
+            if (direction === "up") {
+              if ($tabs.length) {
+                Focus.to($tabs.first());
+              } else if ($input.length) {
+                Focus.to($input);
+              }
+            }
+            // "down" al final de todo: no hay nada más, no mover foco.
+            return true;
+          }
+
+          var targetTop = direction === "up" ? Math.max.apply(null, rowTops) : Math.min.apply(null, rowTops);
+
+          var rowItems = [];
+          $results.each(function () {
+            if (Math.abs(this.offsetTop - targetTop) < ROW_TOLERANCE) {
+              rowItems.push({ el: $(this), left: this.offsetLeft });
+            }
+          });
+          rowItems.sort(function (a, b) {
+            return Math.abs(a.left - currentLeft) - Math.abs(b.left - currentLeft);
+          });
+
+          var $target = rowItems[0].el;
+          Focus.to($target);
+
+          var targetTopPos = $target[0].offsetTop;
+          var targetHeight = $target[0].offsetHeight || 0;
+          if (direction === "up") {
+            // Si la fila destino es la primera del todo (no hay ninguna
+            // fila más arriba de ella), llevar el scroll al tope exacto en
+            // vez de solo compensar lo que sobresale.
+            var isFirstRow = true;
+            $results.each(function () {
+              if (this.offsetTop < targetTopPos - ROW_TOLERANCE) isFirstRow = false;
+            });
+            if (isFirstRow) {
+              $resultsContainer.scrollTop(0);
+            } else if (targetTopPos < $resultsContainer.scrollTop()) {
+              $resultsContainer.scrollTop(targetTopPos);
+            }
+          } else if (targetHeight > 0 && (targetTopPos + targetHeight - $resultsContainer.scrollTop()) > containerHeight) {
+            $resultsContainer.scrollTop(targetTopPos + targetHeight - containerHeight);
           }
           return true;
         }
 
-        if (direction === "left") {
-          if (currentResultIndex % totalResultsPerRow === 0) {
-            if ($tabs.length) {
-              Focus.to($tabs.first());
-            } else if ($input.length) {
-              Focus.to($input);
+        if (direction === "left" || direction === "right") {
+          var sameRow = [];
+          $results.each(function () {
+            if (Math.abs(this.offsetTop - currentTop) < ROW_TOLERANCE) {
+              sameRow.push({ el: $(this), left: this.offsetLeft });
             }
-            return true;
-          }
-          Focus.to($results.eq(currentResultIndex - 1));
-          return true;
-        }
+          });
+          sameRow.sort(function (a, b) { return a.left - b.left; });
 
-        if (direction === "right") {
-          if ((currentResultIndex + 1) % totalResultsPerRow === 0 || currentResultIndex === $results.length - 1) {
+          var idxInRow = -1;
+          for (var k = 0; k < sameRow.length; k++) {
+            if (sameRow[k].el.is($el)) { idxInRow = k; break; }
+          }
+
+          if (direction === "left") {
+            if (idxInRow <= 0) {
+              if ($tabs.length) {
+                Focus.to($tabs.first());
+              } else if ($input.length) {
+                Focus.to($input);
+              }
+              return true;
+            }
+            Focus.to(sameRow[idxInRow - 1].el);
             return true;
           }
-          Focus.to($results.eq(currentResultIndex + 1));
+
+          // right: sin wrap a la siguiente fila (mismo comportamiento que antes)
+          if (idxInRow === -1 || idxInRow >= sameRow.length - 1) {
+            return true;
+          }
+          Focus.to(sameRow[idxInRow + 1].el);
           return true;
         }
         return true;

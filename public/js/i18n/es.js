@@ -123,6 +123,8 @@ I18n.translations.ES = {
   "MenuUpdateDataDescription": "Actualizar datos",
   "MenuTitle": "Otros",
   "ErrorFind": "No se encontraron resultados para la búsqueda Por favor, intente con otro titulo de búsqueda.", //search.errorSearchMessage
+  "All": "Todos",
+  "Services": "Servicios",
   "SearchRecent": "Búsquedas recientes",
   "SearchClearHistory": "Borrar historial",
   "SearchLive": "En vivo",
