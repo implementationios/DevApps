@@ -103,7 +103,7 @@ I18n.translations.HU = {
   "CustomSearch": "Keresés...",
   "All": "Összes",
   "Services": "Szolgáltatások",
-  "SearchRecent": "Legutóbbi keresések",
+  "SearchRecent": "Legutóbbi",
   "SearchClearHistory": "Előzmények törlése",
   "SearchLive": "Élő",
   "SearchSeries": "Sorozat",

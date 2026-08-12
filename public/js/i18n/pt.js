@@ -115,7 +115,7 @@ I18n.translations.PT = {
   "CustomSearch": "Buscar...",
   "All": "Todos",
   "Services": "Serviços",
-  "SearchRecent": "Pesquisas recentes",
+  "SearchRecent": "Recentes",
   "SearchClearHistory": "Limpar histórico",
   "SearchLive": "Ao vivo",
   "SearchSeries": "Série",

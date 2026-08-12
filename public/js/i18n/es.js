@@ -125,7 +125,7 @@ I18n.translations.ES = {
   "ErrorFind": "No se encontraron resultados para la búsqueda Por favor, intente con otro titulo de búsqueda.", //search.errorSearchMessage
   "All": "Todos",
   "Services": "Servicios",
-  "SearchRecent": "Búsquedas recientes",
+  "SearchRecent": "Recientes",
   "SearchClearHistory": "Borrar historial",
   "SearchLive": "En vivo",
   "SearchSeries": "Serie",

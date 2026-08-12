@@ -43,6 +43,7 @@ var Search = (function (Events) {
     $tabsContainer: null,
     $resultsContainer: null,
     $count: null,
+    $recentRow: null,
 
     initialized: false,
 
@@ -59,6 +60,7 @@ var Search = (function (Events) {
       this.$tabsContainer = $("#searchTabs");
       this.$resultsContainer = $("#searchResults");
       this.$count = $("#searchResultsCount");
+      this.$recentRow = $("#searchRecent");
 
       SearchManager.init({
         onError: function (error) {
@@ -398,6 +400,8 @@ var Search = (function (Events) {
       var query = this.lastQuery;
       var isEmptyQuery = this.lastIsEmptyQuery;
 
+      this._renderRecentRow(isEmptyQuery);
+
       this.$count.text("");
       this.$resultsContainer.empty();
 
@@ -456,7 +460,6 @@ var Search = (function (Events) {
     },
 
     _renderEmptyState: function (isEmptyQuery) {
-      var self = this;
       var fragment = document.createDocumentFragment();
 
       var message = isEmptyQuery
@@ -468,37 +471,56 @@ var Search = (function (Events) {
       p.innerText = message;
       fragment.appendChild(p);
 
-      // Búsquedas recientes: sólo tiene sentido mostrarlas en el estado
-      // inicial (sin query todavía), como en cualquier buscador de un app
-      // de streaming -- antes esto no existía.
-      if (isEmptyQuery) {
-        var recent = SearchManager.getRecentSearches();
-        if (recent && recent.length > 0) {
-          var title = document.createElement("div");
-          title.className = "search-recent-title";
-          title.innerText = __("SearchRecent") || "Búsquedas recientes";
-          fragment.appendChild(title);
+      this.$resultsContainer[0].appendChild(fragment);
+    },
 
-          var wrap = document.createElement("div");
-          wrap.className = "search-recent";
-          recent.forEach(function (q) {
-            var chip = document.createElement("div");
-            chip.className = "search-recent-chip focusable";
-            chip.setAttribute("data-query", q);
-            chip.innerText = q;
-            wrap.appendChild(chip);
-          });
+    /**
+     * Fila compacta de "búsquedas recientes", pegada al buscador (arriba de
+     * los tabs), no dentro del panel de resultados. Antes vivía como un
+     * bloque grande y centrado ahí adentro, con un botón rojo "Borrar
+     * historial" -- se sentía invasivo para algo tan secundario. Ahora es
+     * una sola línea con chips discretos y "Borrar" como texto, visible
+     * sólo cuando no hay query en curso y hay algo en el historial.
+     */
+    _renderRecentRow: function (isEmptyQuery) {
+      if (!this.$recentRow || this.$recentRow.length === 0) return;
 
-          var clear = document.createElement("div");
-          clear.className = "search-recent-clear focusable";
-          clear.innerText = __("SearchClearHistory") || "Borrar historial";
-          wrap.appendChild(clear);
-
-          fragment.appendChild(wrap);
-        }
+      var recent = isEmptyQuery ? SearchManager.getRecentSearches() : [];
+      if (!recent || recent.length === 0) {
+        this.$recentRow.addClass("hidden").empty();
+        return;
       }
 
-      this.$resultsContainer[0].appendChild(fragment);
+      var fragment = document.createDocumentFragment();
+
+      var label = document.createElement("span");
+      label.className = "search-recent-label";
+      label.innerText = __("SearchRecent") || "Recientes";
+      fragment.appendChild(label);
+
+      recent.forEach(function (q) {
+        var chip = document.createElement("span");
+        chip.className = "search-recent-chip focusable";
+        chip.setAttribute("data-query", q);
+        chip.innerText = q;
+        fragment.appendChild(chip);
+      });
+
+      // Spacer en vez de "margin-left: auto" en el link "Borrar": la clase
+      // .focus global (ver style.css) fuerza "margin: 2px" sobre CUALQUIER
+      // elemento enfocado, lo que pisaba el margin-left:auto y hacía que
+      // "Borrar" saltara de posición justo al enfocarlo.
+      var spacer = document.createElement("span");
+      spacer.className = "search-recent-spacer";
+      fragment.appendChild(spacer);
+
+      var clear = document.createElement("span");
+      clear.className = "search-recent-clear focusable";
+      clear.innerText = __("SearchClearHistory") || "Borrar";
+      fragment.appendChild(clear);
+
+      this.$recentRow.empty()[0].appendChild(fragment);
+      this.$recentRow.removeClass("hidden");
     },
 
     /**
@@ -671,7 +693,8 @@ var Search = (function (Events) {
       var $closeButton = this.$closeButton;
       var $input = this.$input;
       var $tabs = this.$tabsContainer.find(".search-tab.focusable:not(.hidden)");
-      var $results = this.$resultsContainer.find(".result-item.focusable, .search-recent-chip.focusable, .search-recent-clear.focusable");
+      var $results = this.$resultsContainer.find(".result-item.focusable");
+      var $recentItems = this.$recentRow.find(".focusable");
 
       var $resultsContainer = this.$resultsContainer;
       var containerHeight = $resultsContainer.height();
@@ -679,23 +702,60 @@ var Search = (function (Events) {
       if ($el.is($closeButton)) {
         if (direction === "down" && $input.length) {
           Focus.to($input);
+        } else if (direction === "left" && $input.length) {
+          Focus.to($input);
         }
         return true;
       }
 
       if ($el.is($input)) {
         if (direction === "down") {
+          if ($recentItems.length) {
+            Focus.to($recentItems.first());
+          } else if ($tabs.length) {
+            Focus.to($tabs.first());
+          } else if ($results.length > 0) {
+            Focus.to($results.first());
+          }
+        } else if (direction === "right") {
+          // El botón "×" está a la derecha del input en la barra superior
+          // (ver .search-input-container en index.html) -- moverse a la
+          // derecha debe ir ahí, no saltar directo a los resultados (eso
+          // ya lo cubre "abajo").
+          if ($closeButton.length) Focus.to($closeButton);
+        } else if (direction === "up" || direction === "left") {
+          // Nada a la izquierda del input (el ícono de lupa no es focusable).
+          return true;
+        }
+        return true;
+      }
+
+      // Fila compacta de "búsquedas recientes" (chips + "Borrar"), pegada
+      // al buscador entre el input y los tabs -- ver _renderRecentRow().
+      // Es siempre una sola fila (no un grid con secciones), así que acá sí
+      // alcanza con índice plano, sin el cuidado geométrico que hace falta
+      // más abajo para la grilla de resultados.
+      if ($el.hasClass("search-recent-chip") || $el.hasClass("search-recent-clear")) {
+        var currentRecentIndex = $recentItems.index($el);
+        if (direction === "up") {
+          if ($input.length) Focus.to($input);
+          return true;
+        }
+        if (direction === "down") {
           if ($tabs.length) {
             Focus.to($tabs.first());
           } else if ($results.length > 0) {
             Focus.to($results.first());
           }
-        } else if (direction === "right" && $results.length > 0) {
-          Focus.to($results.first());
-        } else if (direction === "up") {
           return true;
-        } else if (direction === "left") {
-          if ($closeButton.length) Focus.to($closeButton);
+        }
+        if (direction === "left") {
+          if (currentRecentIndex > 0) Focus.to($recentItems.eq(currentRecentIndex - 1));
+          return true;
+        }
+        if (direction === "right") {
+          if (currentRecentIndex >= 0 && currentRecentIndex < $recentItems.length - 1) Focus.to($recentItems.eq(currentRecentIndex + 1));
+          return true;
         }
         return true;
       }
@@ -711,7 +771,11 @@ var Search = (function (Events) {
           return true;
         }
         if (direction === "up") {
-          if ($input.length) Focus.to($input);
+          if ($recentItems.length) {
+            Focus.to($recentItems.first());
+          } else if ($input.length) {
+            Focus.to($input);
+          }
           return true;
         }
         if (direction === "down") {
@@ -721,29 +785,7 @@ var Search = (function (Events) {
         return true;
       }
 
-      // Navegación dentro de RESULTADOS (incluye chips de "recientes")
-      // Navegación dentro de RESULTADOS (incluye chips de "recientes").
-      //
-      // IMPORTANTE: en el tab "Todos" los resultados están agrupados en
-      // secciones (Servicios / En pantalla / VOD / Catchup) separadas por
-      // un <div class="search-section-title"> con grid-column:1/-1 (ver
-      // search.css), que fuerza un salto de fila en el grid. Por eso no se
-      // puede navegar con aritmética de índice fijo (currentIndex ±
-      // columnasPorFila): en cuanto una sección no termina en un múltiplo
-      // exacto de columnas, el índice de la sección siguiente queda
-      // desalineado de la fila visual real.
-      //
-      // La navegación se hace leyendo la posición real de cada card en el
-      // DOM y agrupando por fila/columna -- pero con **offsetTop/
-      // offsetLeft nativos, NO jQuery .position()/.offset()**. .position()
-      // usa getBoundingClientRect(), que sí refleja transforms CSS, y
-      // .result-item:focus tiene `transform: scale(1.05)` (ver
-      // search.css) -- la card que tiene el foco se mide con un top/left
-      // ~4px corrido respecto a sus vecinas sin foco, rompiendo la
-      // agrupación por fila. offsetTop/offsetLeft reflejan la caja de
-      // layout (CSS box model) y no se ven afectados por transform, así
-      // que dan el mismo valor esté o no la card enfocada/escalada.
-      // Navegación dentro de RESULTADOS (incluye chips de "recientes").
+      // Navegación dentro de RESULTADOS.
       //
       // IMPORTANTE: en el tab "Todos" los resultados están agrupados en
       // secciones (Servicios / En pantalla / VOD / Catchup) separadas por
@@ -769,7 +811,7 @@ var Search = (function (Events) {
       // real entre filas es de cientos de píxeles, así que un margen de
       // 10px es más que suficiente para absorber el jitter sin confundir
       // dos filas reales entre sí.
-      if ($el.hasClass("result-item") || $el.hasClass("search-recent-chip") || $el.hasClass("search-recent-clear")) {
+      if ($el.hasClass("result-item")) {
         var ROW_TOLERANCE = 10;
         var currentTop = $el[0].offsetTop;
         var currentLeft = $el[0].offsetLeft;
@@ -778,7 +820,7 @@ var Search = (function (Events) {
           if (direction === "down") {
             var lastTop = $results.length ? $results.last()[0].offsetTop : 0;
             if (Math.abs(currentTop - lastTop) < ROW_TOLERANCE && this._growIfNeeded()) {
-              $results = this.$resultsContainer.find(".result-item.focusable, .search-recent-chip.focusable, .search-recent-clear.focusable");
+              $results = this.$resultsContainer.find(".result-item.focusable");
             }
           }
 

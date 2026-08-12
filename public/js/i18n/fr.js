@@ -103,7 +103,7 @@ I18n.translations.FR = {
   "CustomSearch": "Rechercher...",
   "All": "Tous",
   "Services": "Services",
-  "SearchRecent": "Recherches récentes",
+  "SearchRecent": "Récent",
   "SearchClearHistory": "Effacer l'historique",
   "SearchLive": "En direct",
   "SearchSeries": "Série",

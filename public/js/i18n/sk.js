@@ -103,7 +103,7 @@ I18n.translations.SK = {
   "CustomSearch": "Vyhľadať...",
   "All": "Všetky",
   "Services": "Služby",
-  "SearchRecent": "Nedávne vyhľadávania",
+  "SearchRecent": "Nedávne",
   "SearchClearHistory": "Vymazať históriu",
   "SearchLive": "Naživo",
   "SearchSeries": "Séria",
