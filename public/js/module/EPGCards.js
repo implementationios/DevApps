@@ -221,7 +221,8 @@ var EPGCards = (function(Events) {
 
         // Cachear clase del elemento para evitar múltiples verificaciones
         var focusedClass = $focused.attr('class') || '';
-        var isProgramCard = focusedClass.indexOf('epg-program-card') !== -1;
+        // La celda vacía "—" (sin evento en Antes/Más Tarde) también navega izq/der como una card.
+        var isProgramCard = focusedClass.indexOf('epg-program-card') !== -1 || focusedClass.indexOf('epg-program-slot-empty') !== -1;
         var isChannelInfo = focusedClass.indexOf('epg-channel-info') !== -1;
 
         if (direction === "up") {
@@ -268,7 +269,7 @@ var EPGCards = (function(Events) {
                 }
                 var anchorTopBackLeft = this._captureFocusRowTop($focused);
                 this._renderCards();
-                $focusTo = this.$epgGrid.find('.epg-program-card[data-channel-index="' + chIdxBack + '"][data-slot="before"]').first();
+                $focusTo = this._getSlotElementForChannel(chIdxBack, 'before');
                 // IMPORTANTE: al paginar, mantener foco en "Antes" y salir
                 if ($focusTo && $focusTo.length > 0) {
                   this.$lastEpgFocused = $focusTo;
@@ -302,7 +303,7 @@ var EPGCards = (function(Events) {
                 var lastChannelIndex2 = $focused.data('channel-index');
                 var anchorTopLaterLeft = this._captureFocusRowTop($focused);
                 this._renderCards();
-                $focusTo = this.$epgGrid.find('.epg-program-card[data-channel-index="' + lastChannelIndex2 + '"][data-slot="later"]').first();
+                $focusTo = this._getSlotElementForChannel(lastChannelIndex2, 'later');
                 // IMPORTANTE: al paginar hacia atrás, mantener foco en "Más Tarde" y salir
                 if ($focusTo && $focusTo.length > 0) {
                   this.$lastEpgFocused = $focusTo;
@@ -373,7 +374,7 @@ var EPGCards = (function(Events) {
                 }
                 var anchorTopBackRight = this._captureFocusRowTop($focused);
                 this._renderCards();
-                $focusTo = this.$epgGrid.find('.epg-program-card[data-channel-index="' + chIdx + '"][data-slot="before"]').first();
+                $focusTo = this._getSlotElementForChannel(chIdx, 'before');
                 // IMPORTANTE: al paginar, mantener foco en "Antes" y salir
                 if ($focusTo && $focusTo.length > 0) {
                   this.$lastEpgFocused = $focusTo;
@@ -420,7 +421,7 @@ var EPGCards = (function(Events) {
                 }
                 var anchorTopLaterRight = this._captureFocusRowTop($focused);
                 this._renderCards();
-                $focusTo = this.$epgGrid.find('.epg-program-card[data-channel-index="' + chIdx + '"][data-slot="later"]').first();
+                $focusTo = this._getSlotElementForChannel(chIdx, 'later');
                 // Ver comentario equivalente más arriba (paginación LEFT de
                 // "Más Tarde") sobre _compensateRowDrift(). Caso reportado:
                 // al paginar "Más Tarde" repetidamente con epgCardsLaterGlobal
