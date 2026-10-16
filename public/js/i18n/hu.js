@@ -65,6 +65,10 @@ I18n.translations.HU = {
   "EPGTomorrow": "Holnap", //Utils.tomorrow
   "EPGWatch": "Nézze meg",
   "EPGLive": "Élőbe",
+  "EPGSchedule": "Emlékeztető",
+  "EPGUnschedule": "Emlékeztető törlése",
+  "EPGReminderMessage": "A(z) \"{title}\" műsor ({channel}) 5 perc múlva kezdődik.",
+  "EPGReminderGoToChannel": "Ugrás a csatornára",
   "EPGLoading": "Betöltés...",
   "EPGNoData": "Nincs EPG adat.",
   "EPGItemNoData": "Nincs EPG adat",

@@ -65,6 +65,10 @@ I18n.translations.FR = {
   "EPGTomorrow": "Demain", //Utils.tomorrow
   "EPGWatch": "Regarder",
   "EPGLive": "Aller au Direct",
+  "EPGSchedule": "Programmer un rappel",
+  "EPGUnschedule": "Annuler le rappel",
+  "EPGReminderMessage": "L'émission \"{title}\" sur {channel} commence dans 5 minutes.",
+  "EPGReminderGoToChannel": "Aller à la chaîne",
   "EPGLoading": "Chargement...",
   "EPGNoData": "Aucune donnée EPG trouvée.",
   "EPGItemNoData": "Aucune donnée EPG",

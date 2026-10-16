@@ -65,6 +65,10 @@ I18n.translations.SK = {
   "EPGTomorrow": "Zajtra", //Utils.tomorrow
   "EPGWatch": "Sledovať",
   "EPGLive": "Prejsť na živo",
+  "EPGSchedule": "Naplánovať",
+  "EPGUnschedule": "Zrušiť plán",
+  "EPGReminderMessage": "Udalosť \"{title}\" na {channel} sa začína o 5 minút.",
+  "EPGReminderGoToChannel": "Prejsť na kanál",
   "EPGLoading": "Načítava sa...",
   "EPGNoData": "Žiadne údaje o EPG nenájdené.",
   "EPGItemNoData": "Žiadne údaje EPG",

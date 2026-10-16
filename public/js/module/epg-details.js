@@ -50,6 +50,7 @@ EPGDetails = (function (Events) {
       this.$favButton = this.$epgDetails.find(".epg-dialog-details-header-fav");
       this.$recordButton = this.$epgDetails.find(".epg-dialog-record");
       this.$liveButton = this.$epgDetails.find(".epg-dialog-live");
+      this.$scheduleButton = this.$epgDetails.find(".epg-dialog-schedule");
       this.$watchButton = this.$epgDetails.find(".epg-dialog-watch");
       this.$dialogMessage = this.$epgDetails.find(".epg-dialog-details-message");
     },
@@ -90,8 +91,9 @@ EPGDetails = (function (Events) {
 
         +      '<!-- Tercera Fila -->'
         +      '<div  style="display: flex; justify-content: center; gap: 16px;">'
-        +        '<div class="nb-icon-button focusable nb-icon-star epg-dialog-details-header-fav" style="width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background-color: #007bff;"></div>'
+        +        '<div class="nb-icon-button focusable nb-icon-star epg-dialog-details-header-fav" style="width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background-color: #007bff; position: relative;"><span class="epg-dialog-fav-label"></span></div>'
         +        '<button type="button" class="btn-default btn-lg focusable epg-dialog-live hidden" data-parent-type="message" style="background-color: #007bff; color: #fff; padding: 10px 20px; border-radius: 8px;">' + __("EPGLive") + '</button>'
+        +        '<button type="button" class="btn-default btn-lg focusable epg-dialog-schedule hidden" data-parent-type="message" style="background-color: #6c757d; color: #fff; padding: 10px 20px; border-radius: 8px;">' + __("EPGSchedule") + '</button>'
         +        '<button type="button" class="btn-default btn-lg focusable epg-dialog-watch hidden" data-parent-type="message" style="background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 8px;">' + __("EPGWatch") + '</button>'
         +        '<button type="button" class="btn-default btn-lg focusable epg-dialog-record hidden" data-parent-type="message" style="background-color:rgb(167, 40, 40); color: #fff; padding: 10px 20px; border-radius: 8px;">' + __("CatchupRecordButton") + '</button>'
         +      '</div>'
@@ -114,8 +116,10 @@ EPGDetails = (function (Events) {
       this.serviceTVObj = null;
       this.metadata = null;
 
+      this.futureEvent = null;
       this.$recordButton.addClass("hidden");
       this.$liveButton.addClass("hidden");
+      this.$scheduleButton.addClass("hidden");
       this.$watchButton.addClass("hidden");
       this.$epgDetails.find(".epg-dialog-watch").addClass("hidden");
       this.$dialogMessage.text("");
@@ -139,6 +143,12 @@ EPGDetails = (function (Events) {
         if (metadata.item2) { //future event
           this.$liveButton.removeClass("hidden");
           this.setEpgEvent(metadata.item2);
+
+          if (metadata.item2.startDate && metadata.item2.startDate.valueOf() > getTodayDate().valueOf()) {
+            this.futureEvent = metadata.item2;
+            this._updateScheduleButton();
+            this.$scheduleButton.removeClass("hidden");
+          }
         } else { //live event
           epgEvent = AppData.getLiveEvent(this.serviceTVObj);
           this.setEpgEvent(epgEvent);
@@ -210,9 +220,18 @@ EPGDetails = (function (Events) {
         this.$favButton.removeClass("nb-icon-star");
       }
 
+      this._updateFavLabel(favIndex >= 0);
+
       this.metadata = metadata;
       this.$epgDetails.modal("show");
-      Focus.to(this.$favButton);
+      // El foco inicial va a la acción principal (en vivo / ver / grabar), no a favorito.
+      var $firstAction = this.$epgDetails.find(".epg-dialog-live, .epg-dialog-watch, .epg-dialog-record").not(".hidden").first();
+      Focus.to($firstAction.length ? $firstAction : this.$favButton);
+    },
+
+    // Etiqueta bajo la estrella; el CSS solo la muestra con la estrella enfocada.
+    _updateFavLabel: function (isFavorite) {
+      this.$favButton.find(".epg-dialog-fav-label").text(isFavorite ? __("PlayerUnfavorite") : __("PlayerFavorite"));
     },
 
     setEpgEvent: function (epgEvent) {
@@ -285,6 +304,9 @@ EPGDetails = (function (Events) {
         this.playLive();
         this.close();
         this.closeEPGIfVisible();
+      } else if ($el.is(this.$scheduleButton)) {
+        this.toggleReminder();
+        return;
       } else if ($el.is(this.$watchButton)) {
         this.playCatchup();
         this.close();
@@ -299,6 +321,46 @@ EPGDetails = (function (Events) {
         }
         return;
       }
+    },
+
+    // --- Recordatorios de eventos futuros (el aviso lo dispara Scene_Home.checkEventReminders) ---
+    REMINDERS_KEY: "EPG_REMINDERS",
+
+    getReminders: function () {
+      var list = Storage.get(this.REMINDERS_KEY);
+      return Array.isArray(list) ? list : [];
+    },
+
+    _reminderId: function () {
+      return this.serviceTVObj.id + "_" + this.futureEvent.startDate.valueOf();
+    },
+
+    _updateScheduleButton: function () {
+      var id = this._reminderId();
+      var scheduled = this.getReminders().some(function (r) { return r.id === id; });
+      this.$scheduleButton.text(scheduled ? __("EPGUnschedule") : __("EPGSchedule"));
+    },
+
+    toggleReminder: function () {
+      if (!this.futureEvent || !this.serviceTVObj) return;
+
+      var id = this._reminderId();
+      var list = this.getReminders();
+      var kept = list.filter(function (r) { return r.id !== id; });
+
+      if (kept.length === list.length) { // no estaba agendado
+        var lang = this.futureEvent.languages;
+        kept.push({
+          id: id,
+          serviceId: this.serviceTVObj.id,
+          channel: this.serviceTVObj.name,
+          title: lang && lang.length > 0 ? lang[0].title : "",
+          start: this.futureEvent.startDate.valueOf()
+        });
+      }
+
+      Storage.set(this.REMINDERS_KEY, kept);
+      this._updateScheduleButton();
     },
 
     playLive: function () {
@@ -409,6 +471,7 @@ EPGDetails = (function (Events) {
           this.$favButton.addClass("nb-icon-star");
         }
 
+        this._updateFavLabel(User.hasServiceTVFavorited(lcn) >= 0);
         this.homeObject.setFavoritesRow();
         Focus.to(this.$favButton);
         return true;

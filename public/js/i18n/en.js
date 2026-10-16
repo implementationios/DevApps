@@ -77,6 +77,10 @@ I18n.translations.EN = {
   "EPGTomorrow": "Tomorrow", //Utils.tomorrow
   "EPGWatch": "Watch",
   "EPGLive": "Go Live",
+  "EPGSchedule": "Remind me",
+  "EPGUnschedule": "Remove reminder",
+  "EPGReminderMessage": "The event \"{title}\" on {channel} starts in 5 minutes.",
+  "EPGReminderGoToChannel": "Go to channel",
   "EPGLoading": "Loading...",
   "EPGNoData": "No EPG data found.",
   "EPGItemNoData": "No EPG data",

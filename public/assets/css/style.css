@@ -625,6 +625,22 @@ div.horizontal-slide {
   background-repeat: no-repeat;
 }
 
+/* Etiqueta de favorito en el popup de info del evento: visible solo con foco */
+.epg-dialog-fav-label {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  white-space: nowrap;
+  font-size: 0.9em;
+  color: #fff;
+}
+.epg-dialog-details-header-fav.focus .epg-dialog-fav-label {
+  display: block;
+}
+
 .nb-icon-star-half {
   background: url(../../img/star-half.png);
   background-position: center;

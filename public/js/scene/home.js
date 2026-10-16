@@ -258,6 +258,34 @@ Scene_Home = (function (Scene) {
       if (HOME.actionsForCheckInactivity) {
         HOME.actionsForCheckInactivity();
       }
+
+      HOME.checkEventReminders();
+    },
+
+    // Avisa 5 min antes de los eventos agendados desde el popup de info (ver EPGDetails.toggleReminder).
+    // shortcut: se evalúa solo en el tick por minuto, así que el aviso puede llegar hasta 1 min tarde.
+    checkEventReminders: function () {
+      // Con otro popup abierto (o Home oculto) se reintenta en el próximo minuto.
+      if (!this.isVisible || this.$el.find(".nb-alert-confirm:visible").length > 0) return;
+
+      var now = getTodayDate().valueOf();
+      var list = EPGDetails.getReminders();
+      var due = null;
+      var pending = list.filter(function (r) {
+        if (r.start <= now) return false; // ya empezó: se descarta
+        if (!due && r.start - now <= 5 * 60000) { due = r; return false; }
+        return true;
+      });
+
+      if (pending.length !== list.length) {
+        Storage.set(EPGDetails.REMINDERS_KEY, pending);
+      }
+
+      if (due) {
+        this.reminderServiceId = due.serviceId;
+        this.reminderLastFocus = Focus.focused;
+        this.$el.showAlertConfirm(__("EPGReminderMessage", { title: due.title, channel: due.channel }), "EventReminder", __("EPGReminderGoToChannel"), null, "ok");
+      }
     },
 
     actionsForCheckInactivity: function () {
@@ -1009,6 +1037,19 @@ Scene_Home = (function (Scene) {
             this.activateLicense($el.is(this.$nbAlertConfirmOkButton));
             $el.closeAlert(this.$el);
             Focus.to(this.$videoContainer);
+            return;
+          } else if (tag == "EventReminder") {
+            $el.closeAlert(this.$el);
+            if ($el.is(this.$nbAlertConfirmOkButton)) {
+              var reminderService = AppData.getServiceTV(this.reminderServiceId);
+              if (reminderService !== false && reminderService.url) {
+                if (EPGDetails.$epgDetails && EPGDetails.isShowed()) EPGDetails.close();
+                EPGDetails.closeEPGIfVisible();
+                this.playContentWithAccess("service", reminderService.id, reminderService.url, reminderService, true, true);
+              }
+            } else if (this.reminderLastFocus && this.reminderLastFocus.length > 0) {
+              Focus.to(this.reminderLastFocus);
+            }
             return;
           } else if (tag == "MoviesContinuePlayback") {
             if ($el.is(this.$nbAlertConfirmOkButton)) {

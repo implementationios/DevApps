@@ -77,6 +77,10 @@ I18n.translations.PT = {
   "EPGTomorrow": "Amanhã", //Utils.tomorrow
   "EPGWatch": "Assistir",
   "EPGLive": "Ir ao Vivo",
+  "EPGSchedule": "Agendar",
+  "EPGUnschedule": "Remover agendamento",
+  "EPGReminderMessage": "O evento \"{title}\" em {channel} começa em 5 minutos.",
+  "EPGReminderGoToChannel": "Ir para o canal",
   "EPGLoading": "Carregando...",
   "EPGNoData": "Nenhum dado de EPG encontrado.",
   "EPGItemNoData": "Sem dados de EPG",
