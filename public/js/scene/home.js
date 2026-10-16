@@ -1788,7 +1788,9 @@ Scene_Home = (function (Scene) {
       App.notification(__("Scene_Home"));
       Focus.to(this.$firstFocusableItem);
 
-      if (this.miniPlayerEnabled && this.firstLaunch) { // play first item when app data is loaded
+      var hasHomeChannel = User.getHomeChannelLCN() != null && User.getHomeChannelLCN() != -1;
+      // sin mini player solo se autoreproduce (a pantalla completa) si hay X_HOME_CHANNEL_LCN
+      if ((this.miniPlayerEnabled || hasHomeChannel) && this.firstLaunch) { // play first item when app data is loaded
         this.onEnter(Focus.focused, []);
       }
     },
