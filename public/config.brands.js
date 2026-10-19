@@ -49,7 +49,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv01.panaccess.com/",
     token: "gQposTlrMIOYQVdYBNYC",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -92,7 +92,7 @@ var CONFIG_BRANDS = [
     drm: "https://pmdw-1.in.tv.br/", // url de la drm
     token: "CQSepFFsoFNgyLNDYOpz", // token de la drm
     developedBy: "inTV&#174,", // desarrollado por
-    version: "2.0.2", // versión de la app
+    version: "2.0.3", // versión de la app
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "", //"http://localhost:8000"
@@ -135,7 +135,7 @@ var CONFIG_BRANDS = [
     drm: "https://pmdw-1.in.tv.br/",
     token: "CQSepFFsoFNgyLNDYOpz",
     developedBy: "inTV&#174,",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -178,7 +178,7 @@ var CONFIG_BRANDS = [
     drm: "https://pmdw-1.in.tv.br/",
     token: "CQSepFFsoFNgyLNDYOpz",
     developedBy: "inTV&#174,",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -221,7 +221,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv10.panaccess.com/",
     token: "ekMIItbwRqfRWfdSTkwL",
     developedBy: "Network Broadcast",
-    version: "2.0.1",
+    version: "2.0.2",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -264,7 +264,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv10.panaccess.com/",
     token: "FgqweBuQADgRLIfgsofJ",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -307,7 +307,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv10.panaccess.com/",
     token: "CUZwaXeVxOvrCiMmVHov",
     developedBy: "Network Broadcast",
-    version: "1.0.0",
+    version: "1.0.1",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -350,7 +350,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv10.panaccess.com/",
     token: "ekMIItbwRqfRWfdSTkwL",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -393,7 +393,7 @@ var CONFIG_BRANDS = [
     drm: "https://pmdw-1.in.tv.br/",
     token: "CQSepFFsoFNgyLNDYOpz",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -436,7 +436,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv01.panaccess.com/",
     token: "gQposTlrMIOYQVdYBNYC",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -479,7 +479,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv01.panaccess.com/",
     token: "gQposTlrMIOYQVdYBNYC",
     developedBy: "Network Broadcast",
-    version: "1.0.0",
+    version: "1.0.1",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -522,7 +522,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv.cablesatelite.com/",
     token: "QgEdNucNshSDETCLmkrP",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -565,7 +565,7 @@ var CONFIG_BRANDS = [
     drm: "https://pmdw-1.in.tv.br/",
     token: "CQSepFFsoFNgyLNDYOpz",
     developedBy: "Network Broadcast",
-    version: "2.0.1",
+    version: "2.0.2",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -651,7 +651,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv10.panaccess.com/",
     token: "NLdLsrJkgIgnxMIDurSI",
     developedBy: "Gigmax",
-    version: "2.0.2",
+    version: "2.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -694,7 +694,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv10.panaccess.com/",
     token: "NLdLsrJkgIgnxMIDurSI",
     developedBy: "Gigmax",
-    version: "2.0.3",
+    version: "2.0.4",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -737,7 +737,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv10.panaccess.com/",
     token: "ekMIItbwRqfRWfdSTkwL",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -780,7 +780,7 @@ var CONFIG_BRANDS = [
     drm: "https://pmdw-1.in.tv.br/",
     token: "CQSepFFsoFNgyLNDYOpz",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -823,7 +823,7 @@ var CONFIG_BRANDS = [
     drm: "https://mw.cabledelancer.com/",
     token: "ZteKaVByMTRHfqeHXtWK",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: true,
       baseUrl: "https://bt-auth.cabledelancer.com",
@@ -866,7 +866,7 @@ var CONFIG_BRANDS = [
     drm: "https://cv10.panaccess.com/",
     token: "ekMIItbwRqfRWfdSTkwL",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -909,7 +909,7 @@ var CONFIG_BRANDS = [
     drm: "https://pmdw-1.in.tv.br/",
     token: "CQSepFFsoFNgyLNDYOpz",
     developedBy: "inTV&#174,",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -952,7 +952,7 @@ var CONFIG_BRANDS = [
     drm: "https://pmdw-1.in.tv.br/",
     token: "CQSepFFsoFNgyLNDYOpz",
     developedBy: "inTV&#174,",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -995,7 +995,7 @@ var CONFIG_BRANDS = [
     drm: "https://mw.supercabotv.com.br/",
     token: "GPlRCaIIcAOwsdkkINCv",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -1038,7 +1038,7 @@ var CONFIG_BRANDS = [
     drm: "https://mw.twspeed.com.br/",
     token: "mOEWTFSpDiBiojGMNAXk",
     developedBy: "Network Broadcast",
-    version: "2.0.1",
+    version: "2.0.2",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -1081,7 +1081,7 @@ var CONFIG_BRANDS = [
     drm: "https://mw.twspeed.com.br/",
     token: "mOEWTFSpDiBiojGMNAXk",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -1124,7 +1124,7 @@ var CONFIG_BRANDS = [
     drm: "https://mw.cabledelancer.com/",
     token: "ZteKaVByMTRHfqeHXtWK",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -1167,7 +1167,7 @@ var CONFIG_BRANDS = [
     drm: "https://mw.cabledelancer.com/",
     token: "ZteKaVByMTRHfqeHXtWK",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -1210,7 +1210,7 @@ var CONFIG_BRANDS = [
     drm: "https://mw.cabledelancer.com/",
     token: "ZteKaVByMTRHfqeHXtWK",
     developedBy: "Network Broadcast",
-    version: "1.0.0",
+    version: "1.0.1",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
@@ -1253,7 +1253,7 @@ var CONFIG_BRANDS = [
     drm: "https://mw.cabledelancer.com/",
     token: "ZteKaVByMTRHfqeHXtWK",
     developedBy: "Network Broadcast",
-    version: "1.0.2",
+    version: "1.0.3",
     LoginFlags: {
       udidEnabled: false,
       baseUrl: "",
